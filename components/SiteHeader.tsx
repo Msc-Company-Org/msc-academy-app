@@ -13,7 +13,7 @@ export function SiteHeader() {
           </svg>
           <span className="font-display text-lg">Arsenal <span className="text-[var(--color-sage)]">de IA</span></span>
         </Link>
-        <a href="https://arsenal.msc-academy.com.br/arsenal-gratis" className="btn text-sm">Pega 7 grátis →</a>
+        <a href="/arsenal-gratis" className="btn text-sm">Pega 7 grátis →</a>
       </div>
     </header>
   );

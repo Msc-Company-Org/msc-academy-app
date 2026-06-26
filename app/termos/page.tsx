@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Termos de Uso — MSC Academy',
   description: 'Termos de uso do Arsenal de IA da MSC Academy.',
-  alternates: { canonical: 'https://arsenal.msc-academy.com.br/termos' },
+  alternates: { canonical: 'https://app.msc-academy.com.br/termos' },
 };
 
 export default function Termos() {
@@ -14,7 +14,7 @@ export default function Termos() {
         <p>Ao adquirir o <strong>Arsenal de IA</strong>, você concorda com os termos abaixo. [SUP] Revisar com apoio jurídico.</p>
         <section>
           <h2 className="font-display text-xl font-semibold text-ink">1. O produto</h2>
-          <p className="mt-2">Produto digital: biblioteca de assets de IA (templates, fluxos, hooks e superpowers) + o Método P.R.O.©, com acesso online vitalício à área de membros após confirmação do pagamento via Kiwify.</p>
+          <p className="mt-2">Produto digital: biblioteca de assets de IA (templates, fluxos, hooks e superpowers) + o Método P.R.O.©, com acesso online vitalício à área de membros após confirmação do pagamento via Stripe.</p>
         </section>
         <section>
           <h2 className="font-display text-xl font-semibold text-ink">2. Garantia e reembolso</h2>

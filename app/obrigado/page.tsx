@@ -4,7 +4,7 @@ import { PurchaseTracker } from '@/components/PurchaseTracker';
 export const metadata: Metadata = {
   title: 'Obrigado! — MSC Academy',
   robots: { index: false, follow: false },
-  alternates: { canonical: 'https://arsenal.msc-academy.com.br/obrigado' },
+  alternates: { canonical: 'https://app.msc-academy.com.br/obrigado' },
 };
 
 export default function Obrigado() {

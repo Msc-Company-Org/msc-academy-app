@@ -30,7 +30,7 @@ const faq: [string, string[]][] = [
   ['Não vai ficar desatualizado, com a IA mudando toda hora?', ['Por isso o arsenal vem com o Método P.R.O.©.', 'Você não decora asset que expira.', 'Aprende a adaptar e refazer qualquer um quando o modelo muda.', 'E os novos assets entram de graça, pra sempre.']],
   ['Por que um arsenal e não um pack qualquer de prompts?', ['Pack solto você baixa e nunca usa.', 'E morre quando o modelo atualiza.', 'Aqui os assets vêm organizados por nível e testados em produção por mim.', 'Pack é commodity; arsenal com método é ferramenta.']],
   ['Por que comprar este arsenal?', ['Está saturado de gente falando de IA.', 'Aqui você não compra papo — compra a ferramenta.', 'Cada asset vem com antes-e-depois: você vê o resultado antes de instalar.', 'É testado no uso real, não teoria de blog.']],
-  ['Como recebo o acesso e o pagamento?', ['Pela Kiwify, no Pix ou cartão em até 12x.', 'Confirmou, libera na hora.', 'É vitalício, com os novos assets incluídos.']],
+  ['Como recebo o acesso e o pagamento?', ['Pelo checkout seguro da Stripe, com os métodos de pagamento habilitados na conta.', 'Confirmou, libera na hora.', 'É vitalício, com os novos assets incluídos.']],
   ['E se eu não gostar?', ['Garantia de 7 dias, incondicional.', 'Pediu, devolvo 100%, sem perguntar.', 'O risco é meu.']],
   ['R$97 é o preço pra sempre?', ['Não.', 'É o preço do Lote 1 de fundador.', 'A cada lote de assets novos, o preço sobe pro próximo (R$127, depois R$157).', 'Quem entra agora trava o valor de hoje e recebe tudo que vier — pra sempre.']],
   ['Esse preço sobe mesmo ou é só pressão?', ['Sobe de verdade, e por uma razão honesta: a biblioteca cresce toda semana.', 'Quanto mais asset entra, mais o arsenal vale — então o próximo lote custa mais.', 'Quem comprou no lote anterior nunca paga a diferença.']],
@@ -53,6 +53,15 @@ export const metadata: Metadata = {
   description:
     'Instale o arsenal de IA pronto, testado e organizado: templates, fluxos, hooks e superpowers com o Método P.R.O.©. Acesso vitalício, sem programar, garantia de 7 dias. R$97 no lote de fundador.',
   robots: { index: true, follow: true },
+  alternates: { canonical: 'https://app.msc-academy.com.br/' },
+  openGraph: {
+    title: 'Arsenal de IA — Pare de começar do zero | MSC Academy',
+    description: 'Instale o arsenal de IA pronto, testado e organizado. R$97 no lote de fundador.',
+    url: 'https://app.msc-academy.com.br/',
+    type: 'website',
+    locale: 'pt_BR',
+    images: ['/og.jpg'],
+  },
 };
 
 export default function Home() {
@@ -471,7 +480,7 @@ export default function Home() {
               <a href="#" data-checkout="" className="hover:text-ink">Comprar</a>
             </div>
           </div>
-          <p className="mt-6 max-w-2xl text-xs text-ink/45">Este produto não garante resultado financeiro. Entregamos ferramentas e a habilidade de usá-las; resultados dependem da aplicação de cada aluno. Pagamento processado pela Kiwify.</p>
+          <p className="mt-6 max-w-2xl text-xs text-ink/45">Este produto não garante resultado financeiro. Entregamos ferramentas e a habilidade de usá-las; resultados dependem da aplicação de cada aluno. Pagamento processado com segurança pela Stripe.</p>
         </div>
       </footer>
 

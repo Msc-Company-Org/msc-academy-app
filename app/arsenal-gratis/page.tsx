@@ -7,6 +7,13 @@ const desc =
 export const metadata: Metadata = {
   title: '7 superpoderes de IA prontos, grátis (sem codar) | MSC Academy',
   description: desc,
+  alternates: { canonical: 'https://app.msc-academy.com.br/arsenal-gratis' },
+  openGraph: {
+    title: '7 superpoderes de IA prontos, grátis | MSC Academy',
+    description: desc,
+    url: 'https://app.msc-academy.com.br/arsenal-gratis',
+    images: ['/og.jpg'],
+  },
 };
 
 export default function ArsenalGratisPage() {

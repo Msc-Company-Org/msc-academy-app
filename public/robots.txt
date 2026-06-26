@@ -1,7 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /obrigado
 Disallow: /api/
+Disallow: /painel
+Disallow: /obrigado
 
 # IA / answer engines bem-vindos (AEO)
 User-agent: GPTBot
@@ -15,4 +16,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://arsenal.msc-academy.com.br/sitemap-index.xml
+Sitemap: https://app.msc-academy.com.br/sitemap.xml

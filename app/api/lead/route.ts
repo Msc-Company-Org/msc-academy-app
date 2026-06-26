@@ -40,7 +40,10 @@ export async function POST(req: Request) {
     user_agent: ua, ip, email_status: 'queued',
   };
   const saved = await insertLead(row);
-  if (!saved.ok) console.error('[lead] supabase insert falhou:', saved.error);
+  if (!saved.ok) {
+    console.error('[lead] supabase insert falhou:', saved.error);
+    return Response.json({ ok: false, error: 'lead_persist_failed' }, { status: 502 });
+  }
 
   const mail = buildDeliveryEmail({ email, profissao, isca, quiz_result });
   if (mail) {
@@ -66,5 +69,5 @@ export async function POST(req: Request) {
 
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (isca === 'blog') headers['Set-Cookie'] = `blog_unlock=1; Path=/; Max-Age=${60 * 60 * 24 * 180}; SameSite=Lax`;
-  return new Response(JSON.stringify({ ok: true, persisted: saved.ok }), { status: 200, headers });
+  return new Response(JSON.stringify({ ok: true, persisted: true, duplicate: saved.duplicate === true }), { status: 200, headers });
 }
