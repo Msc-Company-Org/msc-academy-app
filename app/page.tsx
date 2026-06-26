@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import LeadPopup from '@/components/LeadPopup';
+import { LazyLeadPopup } from '@/components/LazyLeadPopup';
 
 const provaImgs = ['/img/proof_copy_prompts.jpg', '/img/proof_automated_workflows.jpg', '/img/proof_custom_skills.jpg'];
 
@@ -492,7 +492,7 @@ export default function Home() {
         <button data-checkout="" className="btn-amber w-full">QUERO O ARSENAL — R$97 <span className="arrow">→</span></button>
       </div>
 
-      <LeadPopup />
+      <LazyLeadPopup />
     </>
   );
 }
