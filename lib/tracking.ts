@@ -96,7 +96,7 @@ export async function goToCheckout(opts: { email?: string; produto?: 'arsenal' |
     const res = await fetch('/api/checkout', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email: opts.email, produto: opts.produto || 'arsenal',
+        checkout_intent: 'site_checkout', email: opts.email, produto: opts.produto || 'arsenal',
         attribution: a, client_id: getGaClientId(),
         fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1], fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1],
       }),

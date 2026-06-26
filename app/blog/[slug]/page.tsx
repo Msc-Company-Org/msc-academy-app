@@ -65,7 +65,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <p className="text-xs font-bold uppercase tracking-widest text-[var(--color-indigo)]">Da teoria pra prática</p>
             <h3 className="mt-2 font-display text-2xl font-bold">Pega 7 superpoderes de IA prontos, de graça.</h3>
             <p className="mt-2 text-[color-mix(in_srgb,var(--color-ink)_72%,transparent)]">Copia, cola e usa hoje — sem precisar programar.</p>
-            <a href="https://arsenal.msc-academy.com.br/arsenal-gratis?utm_source=blog&utm_medium=cta&utm_campaign=blog_pilar" className="btn mt-5">QUERO OS 7 GRÁTIS →</a>
+            <a href="/arsenal-gratis?utm_source=blog&utm_medium=cta&utm_campaign=blog_pilar" className="btn mt-5">QUERO OS 7 GRÁTIS →</a>
           </div>
 
           {post.faq.length > 0 && (

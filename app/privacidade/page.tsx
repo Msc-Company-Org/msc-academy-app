@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Política de Privacidade — MSC Academy',
   description: 'Como a MSC Academy coleta, usa e protege seus dados (LGPD).',
-  alternates: { canonical: 'https://arsenal.msc-academy.com.br/privacidade' },
+  alternates: { canonical: 'https://app.msc-academy.com.br/privacidade' },
 };
 
 export default function Privacidade() {
@@ -35,7 +35,7 @@ export default function Privacidade() {
         </section>
         <section>
           <h2 className="font-display text-xl font-semibold text-ink">6. Compartilhamento</h2>
-          <p className="mt-2">O pagamento é processado pela <strong>Kiwify</strong>, que possui política própria. Não vendemos seus dados a terceiros.</p>
+          <p className="mt-2">O pagamento é processado pela <strong>Stripe</strong>, que possui política própria. Não vendemos seus dados a terceiros.</p>
         </section>
       </div>
 

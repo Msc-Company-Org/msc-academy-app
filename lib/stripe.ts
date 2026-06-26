@@ -7,7 +7,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 const API = 'https://api.stripe.com/v1';
 
 export function siteUrl(): string {
-  return process.env.PUBLIC_SITE_URL || 'https://arsenal.msc-academy.com.br';
+  return process.env.PUBLIC_SITE_URL || 'https://app.msc-academy.com.br';
 }
 
 /** Preço atual do lote (em centavos). Lote de fundador = R$97. Ajustável por env quando o lote virar. */

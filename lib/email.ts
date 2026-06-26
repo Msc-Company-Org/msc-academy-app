@@ -3,7 +3,7 @@
  * Server-side apenas. Best-effort: se faltar env, não envia e retorna {ok:false}.
  */
 
-export const SITE = 'https://arsenal.msc-academy.com.br';
+export const SITE = process.env.PUBLIC_SITE_URL || 'https://app.msc-academy.com.br';
 const UNSUB_MAILTO = 'sair@msc-academy.com.br';
 
 export function siteUrlFromEnv(): string {
@@ -60,7 +60,7 @@ export function renderEmail(p: EmailParts): string {
         ${p.psHtml ? `<tr><td class="px" style="padding:8px 32px 4px;font:14px/1.6 Arial,sans-serif;color:#45611F;">${p.psHtml}</td></tr>` : ''}
         <tr><td class="px" style="padding:12px 32px 0;font:15px/1.6 Arial,sans-serif;color:#163300;">&mdash; Moisés &middot; MSC Academy</td></tr>
         <tr><td class="px" style="padding:24px 32px 28px;border-top:1px solid rgba(22,51,0,.10);font:12px/1.7 Arial,sans-serif;color:#5C6B3C;">
-          Você recebeu este e-mail porque pediu material gratuito do Arsenal de IA em arsenal.msc-academy.com.br.<br>
+          Você recebeu este e-mail porque pediu material gratuito do Arsenal de IA em app.msc-academy.com.br.<br>
           MSC Academy &middot; Rio de Janeiro/RJ &middot; Brasil.<br>
           <a href="${p.unsubUrl}" style="color:#5C6B3C;text-decoration:underline;">Descadastrar</a> &middot;
           <a href="${SITE}/privacidade" style="color:#5C6B3C;">Privacidade</a><br>
