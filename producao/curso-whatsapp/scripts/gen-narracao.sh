@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Gera a narração de uma aula com edge-tts (Thalita, calmo) + legenda SRT.
 # RASCUNHO/PILOTO: edge-tts é grátis mas licença CINZA — não usar no render final pago.
-# RENDER FINAL (comercial): trocar por Azure Speech (mesma voz pt-BR-ThalitaMultilingualNeural,
-# free tier 0,5M/mês, licença limpa) — ver gen-narracao-azure.sh quando a chave estiver no cofre.
+# RENDER FINAL (comercial): voz via HF/Colab com modelo de LICENÇA COMERCIAL — Chatterbox (MIT)
+# + resemble-enhance, ou Qwen3-TTS (Apache). NÃO usar Azure (decisão: tudo HF/Colab grátis).
 #
 # Uso: bash scripts/gen-narracao.sh 01
 set -euo pipefail

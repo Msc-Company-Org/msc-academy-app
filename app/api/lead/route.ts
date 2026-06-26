@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     if (!sent.ok) console.error('[lead] resend envio falhou:', sent.error);
   }
 
-  const pixel = process.env.PUBLIC_FB_PIXEL_ID || process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+  const pixel = process.env.NEXT_PUBLIC_FB_PIXEL_ID || process.env.FB_PIXEL_ID;
   const capiToken = process.env.FB_CAPI_TOKEN;
   if (pixel && capiToken) {
     try {

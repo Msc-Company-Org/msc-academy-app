@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { track, uuid } from '@/lib/tracking';
 
 /** Soft-gate: libera o resto do post em troca do e-mail (grava lead source=blog). */
 export function GateForm({ titulo }: { titulo: string }) {
@@ -12,15 +13,17 @@ export function GateForm({ titulo }: { titulo: string }) {
     setPending(true); setError('');
     try {
       const sp = new URLSearchParams(location.search);
+      const event_id = uuid();
       const res = await fetch('/api/lead', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email, isca: 'blog', source_surface: 'blog',
+          email, isca: 'blog', source_surface: 'blog', event_id,
           gclid: sp.get('gclid') || undefined, utm_source: sp.get('utm_source') || undefined, utm_campaign: sp.get('utm_campaign') || undefined,
         }),
       });
       const data = await res.json();
       if (!data.ok) { setError('Confere o e-mail e tenta de novo.'); setPending(false); return; }
+      track('generate_lead', { value: 5, currency: 'BRL', lead_source: 'blog', form_id: 'optin_blog_gate', method: 'email', event_id, isca: 'blog', variant: 'A' });
       // cookie blog_unlock setado pela API → recarrega pra renderizar o conteúdo completo
       location.reload();
     } catch {

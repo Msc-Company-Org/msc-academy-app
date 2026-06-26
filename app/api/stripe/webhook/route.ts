@@ -52,7 +52,7 @@ export async function POST(req: Request) {
 
   const GA_ID = process.env.GA_ID;
   const GA_API_SECRET = process.env.GA_API_SECRET;
-  const FB_PIXEL_ID = process.env.PUBLIC_FB_PIXEL_ID || process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+  const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID || process.env.FB_PIXEL_ID;
   const FB_CAPI_TOKEN = process.env.FB_CAPI_TOKEN;
   const items = [{ item_id: produto === 'tripwire' ? 'arsenal-tripwire' : 'arsenal-de-ia-97', item_name: produto === 'tripwire' ? 'Kit Conteúdo na Veia' : 'Arsenal de IA', price: value, quantity: 1 }];
 
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
     } catch { /* best-effort */ }
   }
 
-  if (email) {
+  if (email && /\S+@\S+\.\S+/.test(String(email))) {
     try {
       const token = signAccess(String(email));
       const accessUrl = `${siteUrlFromEnv()}/membros?t=${token}`;
