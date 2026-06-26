@@ -27,13 +27,13 @@ export async function POST(req: Request) {
   if (checkout_intent !== 'site_checkout') {
     return Response.json({ ok: false, error: 'invalid_checkout_intent' }, { status: 400 });
   }
-  if (produto != null && produto !== 'arsenal' && produto !== 'tripwire') {
+  if (produto != null && produto !== 'arsenal' && produto !== 'tripwire' && produto !== 'curso') {
     return Response.json({ ok: false, error: 'invalid_product' }, { status: 400 });
   }
 
   const r = await createCheckoutSession({
     email: (email as string) || undefined,
-    produto: produto === 'tripwire' ? 'tripwire' : 'arsenal',
+    produto: produto === 'tripwire' ? 'tripwire' : produto === 'curso' ? 'curso' : 'arsenal',
     attribution: (attribution as never) || {},
     gaClientId: (client_id as string) || undefined,
     fbp: (fbp as string) || undefined,

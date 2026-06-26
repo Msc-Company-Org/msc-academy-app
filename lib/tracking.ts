@@ -88,10 +88,13 @@ const ITEM = { item_id: 'arsenal-de-ia-97', item_name: 'Arsenal de IA', price: 9
  * gclid/fbclid/utm/ga_client_id nos metadados) e redireciona pra URL hospedada do Stripe.
  * Dispara begin_checkout. Pix/cartão/boleto conforme o que estiver ativo na conta Stripe.
  */
-export async function goToCheckout(opts: { email?: string; produto?: 'arsenal' | 'tripwire' } = {}): Promise<void> {
+export async function goToCheckout(opts: { email?: string; produto?: 'arsenal' | 'tripwire' | 'curso' } = {}): Promise<void> {
   const a = getAttribution();
-  const price = opts.produto === 'tripwire' ? 27 : 97;
-  track('begin_checkout', { value: price, currency: 'BRL', event_id: uuid(), items: [ITEM] });
+  const price = opts.produto === 'curso' ? 697 : opts.produto === 'tripwire' ? 27 : 97;
+  const item = opts.produto === 'curso'
+    ? { item_id: 'curso-chatbot-whatsapp', item_name: 'Curso Chatbot WhatsApp com IA', price, quantity: 1 }
+    : { ...ITEM, price };
+  track('begin_checkout', { value: price, currency: 'BRL', event_id: uuid(), items: [item] });
   try {
     const res = await fetch('/api/checkout', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -140,19 +143,24 @@ export function initPage(): void {
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-  // ---- view_offer (bloco de preço) ----
+  // ---- view_offer (bloco de preço) — valor vem do data-offer (default 97 = Arsenal) ----
   const offer = document.querySelector('[data-offer]');
   if (offer) {
+    const offerValue = Number(offer.getAttribute('data-offer')) || 97;
     let fired = false;
     const oio = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !fired) { fired = true; track('view_offer', { value: 97, currency: 'BRL', items: [ITEM] }); oio.disconnect(); }
+      if (e.isIntersecting && !fired) { fired = true; track('view_offer', { value: offerValue, currency: 'BRL' }); oio.disconnect(); }
     }, { threshold: 0.5 });
     oio.observe(offer);
   }
 
-  // ---- CTAs de checkout ----
+  // ---- CTAs de checkout (data-checkout="curso"|"tripwire" roteia o produto; vazio = Arsenal) ----
   document.querySelectorAll('[data-checkout]').forEach((btn) => {
-    btn.addEventListener('click', (ev) => { ev.preventDefault(); goToCheckout(); });
+    btn.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      const v = btn.getAttribute('data-checkout');
+      goToCheckout(v === 'curso' || v === 'tripwire' ? { produto: v } : {});
+    });
   });
 
   // ---- TSL: profundidade de leitura (scroll) + barra de progresso ----

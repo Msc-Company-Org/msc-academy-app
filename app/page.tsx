@@ -226,11 +226,23 @@ export default function Home() {
           <div className="grid items-start gap-10 md:grid-cols-[1fr_1.4fr]">
             <div>
               <figure className="card overflow-hidden">
-                <div className="grid aspect-[4/5] place-items-center text-ink/35">
-                  <span className="text-sm">[ retrato editorial — sua foto / avatar ]</span>
+                <div
+                  className="relative flex aspect-[4/5] flex-col justify-between p-7 text-sand"
+                  style={{ background: 'radial-gradient(120% 90% at 85% -10%, #9FE87033, transparent 55%), linear-gradient(135deg, #163300, #2c4d12)' }}
+                >
+                  <svg viewBox="0 0 32 32" className="h-11 w-11" aria-hidden="true">
+                    <rect width="32" height="32" rx="8" fill="#FAF7F0" fillOpacity="0.12" />
+                    <path d="M7.6 24.2 L16 7.2 L24.4 24.2" fill="none" stroke="#FAF7F0" strokeWidth="2.7" strokeLinecap="round" strokeLinejoin="round" />
+                    <rect x="10.8" y="17.2" width="10.4" height="2.7" rx="1.35" fill="#9FE870" />
+                    <circle cx="16" cy="7.2" r="2.5" fill="#FF4F40" />
+                  </svg>
+                  <div>
+                    <p className="font-display text-2xl font-bold leading-tight">MSC Company</p>
+                    <p className="mt-2 text-sm text-sand/75">Construímos e operamos sistemas de IA em produção — agentes, automações e chatbots de WhatsApp. O Arsenal é o que a gente usa no dia a dia, embalado pra você.</p>
+                  </div>
                 </div>
               </figure>
-              <figcaption className="mt-3 text-center text-sm text-ink/60">Moisés — fundador da MSC. <span className="text-indigo">Opera IA, não fala sobre IA.</span></figcaption>
+              <figcaption className="mt-3 text-center text-sm text-ink/60">Feito por quem <span className="text-indigo">opera IA todo dia</span> — não por quem só fala sobre ela.</figcaption>
             </div>
             <div>
               <p className="eyebrow mb-3">04 · Por que não é só mais um pack</p>
@@ -301,8 +313,8 @@ export default function Home() {
       <section className="reveal">
         <div className="shell section">
           <div className="mx-auto max-w-4xl">
-            <p className="eyebrow mb-3 text-center">06 · Honestidade de categoria</p>
-            <h2 className="text-center font-display text-2xl font-bold sm:text-3xl">Vou te dizer na cara o que isto não é — antes que você descubra sozinho.</h2>
+            <p className="eyebrow mb-3 text-center">06 · Pra não ter dúvida</p>
+            <h2 className="text-center font-display text-2xl font-bold sm:text-3xl">O que você leva — e o que isto não é.</h2>
             <div className="mt-9 grid gap-px overflow-hidden rounded-2xl border border-ink/12 bg-ink/12 sm:grid-cols-2">
               <div className="bg-sand p-7">
                 <h3 className="mb-4 font-display text-lg font-semibold text-sage">✓ O que É</h3>
@@ -407,6 +419,7 @@ export default function Home() {
       <section className="sec-line sec-sage reveal">
         <div className="shell section">
           <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow mb-4 text-center">09 · Garantia</p>
             <svg viewBox="0 0 24 24" className="mx-auto h-14 w-14 text-sage" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z" /><path d="M9 12l2 2 4-4" /></svg>
             <h2 className="mt-5 font-display text-2xl font-bold sm:text-3xl">Você não arrisca nada. O risco é todo meu.</h2>
             <div className="prose-flow mx-auto mt-5 text-center">
@@ -423,7 +436,7 @@ export default function Home() {
       <section className="reveal">
         <div className="shell section">
           <div className="mx-auto max-w-2xl">
-            <p className="eyebrow mb-3 text-center">09 · Perguntas frequentes</p>
+            <p className="eyebrow mb-3 text-center">10 · Perguntas frequentes</p>
             <div className="mt-6 divide-y divide-ink/12 border-y border-ink/12">
               {faq.map(([q, lines]) => (
                 <details key={q} className="group py-1">

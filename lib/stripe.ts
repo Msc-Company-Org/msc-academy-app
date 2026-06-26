@@ -10,11 +10,20 @@ export function siteUrl(): string {
   return process.env.PUBLIC_SITE_URL || 'https://app.msc-academy.com.br';
 }
 
-/** Preço atual do lote (em centavos). Lote de fundador = R$97. Ajustável por env quando o lote virar. */
-export function currentPriceCents(produto: 'arsenal' | 'tripwire' = 'arsenal'): number {
+export type Produto = 'arsenal' | 'tripwire' | 'curso';
+
+/** Preço atual do lote (em centavos). Ajustável por env quando o lote virar. */
+export function currentPriceCents(produto: Produto = 'arsenal'): number {
   if (produto === 'tripwire') return Number(process.env.ARSENAL_TRIPWIRE_CENTS || 2700);
+  if (produto === 'curso') return Number(process.env.CURSO_WHATSAPP_CENTS || 69700); // turma de fundadores (de R$997 por R$697)
   return Number(process.env.ARSENAL_PRICE_CENTS || 9700);
 }
+
+const PRODUTO_NOME: Record<Produto, string> = {
+  arsenal: 'Arsenal de IA',
+  tripwire: 'Kit Conteúdo na Veia',
+  curso: 'Curso Chatbot WhatsApp com IA',
+};
 
 type Attribution = {
   gclid?: string; fbclid?: string;
@@ -24,7 +33,7 @@ type Attribution = {
 /** Cria a sessão de checkout e devolve a URL hospedada do Stripe. */
 export async function createCheckoutSession(opts: {
   email?: string;
-  produto?: 'arsenal' | 'tripwire';
+  produto?: Produto;
   attribution?: Attribution;
   gaClientId?: string;
   fbp?: string;
@@ -45,8 +54,10 @@ export async function createCheckoutSession(opts: {
   p.set('line_items[0][quantity]', '1');
   p.set('line_items[0][price_data][currency]', 'brl');
   p.set('line_items[0][price_data][unit_amount]', String(amount));
-  if (productId) p.set('line_items[0][price_data][product]', productId);
-  else p.set('line_items[0][price_data][product_data][name]', produto === 'tripwire' ? 'Kit Conteúdo na Veia' : 'Arsenal de IA');
+  // o curso usa produto próprio (nome), não o STRIPE_PRODUCT_ID compartilhado do Arsenal
+  const useSharedProduct = Boolean(productId) && produto !== 'curso';
+  if (useSharedProduct) p.set('line_items[0][price_data][product]', productId as string);
+  else p.set('line_items[0][price_data][product_data][name]', PRODUTO_NOME[produto]);
   p.set('success_url', `${site}/obrigado?session_id={CHECKOUT_SESSION_ID}`);
   p.set('cancel_url', `${site}/?checkout=cancelado`);
   if (opts.email) p.set('customer_email', opts.email);
