@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { track, uuid, getAttribution, getGaClientId } from '@/lib/tracking';
 
@@ -64,6 +65,7 @@ export function ArsenalGratisClient() {
                 <p>São 7 superpoderes da biblioteca que eu rodo nos meus sistemas, em produção.</p>
                 <p>Você escolhe sua área e recebe os 7 prontos na hora. De graça.</p>
               </div>
+              <Image src="/img/free_sample_7pieces.jpg" alt="As 7 peças grátis do Arsenal de IA — templates, fluxos e skills prontos" width={560} height={560} priority className="mt-9 w-full max-w-[26rem] rounded-2xl" />
             </div>
 
             <div className="card p-7" id="form-card">
