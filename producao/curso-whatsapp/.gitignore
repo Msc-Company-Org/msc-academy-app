@@ -1,0 +1,8 @@
+# áudio/vídeo gerados não vão pro repo (incham; regeneráveis pelo script)
+_audio/
+_video/
+*.mp3
+*.wav
+*.mp4
+*.png
+_slides/

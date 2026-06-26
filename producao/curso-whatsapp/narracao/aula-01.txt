@@ -1,0 +1,17 @@
+Imagina que todo cliente que te chama no WhatsApp é respondido na hora. De dia, de madrugada, no domingo. Sem você grudado no celular. No fim deste curso, isso aqui vai ser o seu normal.
+
+Esse é o primeiro passo. Nesta aula você vai entender, sem nenhum termo técnico, o que é um agente de inteligência artificial no WhatsApp, o que ele resolve no seu negócio, e por que montar um não é coisa de programador. Bora começar pelo começo.
+
+Esquece a palavra robô por um segundo. Pensa num funcionário. Um funcionário que conhece o seu negócio, responde toda mensagem na hora, nunca dorme, nunca fica de mau humor e nunca esquece de dar atenção a um cliente. Um agente de inteligência artificial no WhatsApp é exatamente isso: um atendente que trabalha por você, vinte e quatro horas por dia, dentro do mesmo WhatsApp que você já usa. A diferença pro robozinho de menu que você já viu por aí é que ele entende o que a pessoa escreveu, do jeito que ela escreveu, e responde como gente. Não é aperte um para isso, dois para aquilo. É uma conversa.
+
+Na prática, esse atendente faz cinco coisas que hoje consomem o seu dia. Primeiro: responde na hora as perguntas de sempre. Preço, horário, endereço, ainda tem. Segundo: entende o que o cliente quer e separa quem está só perguntando de quem está pronto pra comprar. Terceiro: agenda. Marca o horário, a consulta, a visita. Quarto: vende. Apresenta o produto, tira a dúvida e conduz até o pagamento. E quinto: quando precisa de você, ele te entrega a conversa já mastigada, com tudo que a pessoa falou. Se você tem uma clínica, ele marca consulta. Se tem uma loja, ele tira dúvida de produto e fecha. Se faz entrega, ele anota o pedido. O mesmo atendente, adaptado pro seu negócio.
+
+Agora, pra deixar claro: esse atendente não é mágica, e não é aquele robô burro de árvore de opções. Ele não vem pra te substituir. Ele vem pra tirar das suas costas o trabalho repetitivo, as mesmas perguntas, o mesmo copia e cola o dia inteiro, pra você sobrar pro que importa: fechar a venda e cuidar do cliente. Pensa assim: ele atende todo mundo na hora, e só te chama quando vale a sua atenção.
+
+E aqui mora o maior medo: mas isso é coisa de programador, eu não entendo nada de tecnologia. Não é mais. Hoje você monta esse atendente ligando blocos prontos, numa tela visual, do mesmo jeito que monta um story ou um slide. Você arrasta, escreve o que ele deve dizer, e pronto. Nada de código. Se você sabe mandar mensagem no WhatsApp, você consegue. Eu vou te mostrar cada clique.
+
+Pra você não se perder, esse é o caminho que a gente vai fazer juntos. Nesta primeira parte, o essencial, que é agora. Na próxima, você coloca o seu primeiro bot no ar, respondendo de verdade. Depois, a gente dá cabeça de inteligência artificial pra ele responder natural, com as informações do seu negócio. Em seguida, ele aprende a vender e a agendar sozinho. E no final, você publica com segurança, sabendo o custo real e sem tomar bloqueio do WhatsApp. Um passo de cada vez, e no fim está tudo conectado e rodando.
+
+Antes da próxima aula, uma tarefa rápida e importante. Abre o seu WhatsApp e olha as últimas conversas. Anota as três perguntas que você mais responde, todo dia, do mesmo jeito. Pode ser preço, horário, formas de pagamento. Guarda essas três. Elas vão ser as primeiras coisas que o seu atendente vai aprender a responder, já na próxima aula.
+
+É isso. Você já entendeu o que é, o que ele faz, e que dá pra fazer sem ser técnico. No próximo passo, a gente sai da teoria e bota a mão na massa: o seu primeiro bot, no ar. Te vejo lá.

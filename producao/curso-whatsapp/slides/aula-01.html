@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#FAF7F0; --sand-dark:#ECEFDE; --ink:#163300; --indigo:#45611F;
+    --citrus:#9FE870; --amber:#FF4F40; --sage:#5C6B3C;
+    --display:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#333;font-family:var(--sans);color:var(--ink)}
+  .slide{
+    width:1920px;height:1080px;background:var(--sand);position:relative;
+    padding:120px 140px;display:flex;flex-direction:column;overflow:hidden;
+  }
+  .slide.center{justify-content:center}
+  .eyebrow{font-size:30px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--indigo)}
+  h1{font-family:var(--display);font-weight:800;font-size:104px;line-height:1.04;letter-spacing:-.01em;margin-top:28px}
+  h2{font-family:var(--display);font-weight:700;font-size:74px;line-height:1.06;margin-top:22px}
+  .lead{font-size:40px;color:#163300cc;margin-top:34px;max-width:1200px;line-height:1.4}
+  .hl{background:linear-gradient(transparent 62%,var(--citrus) 62%);padding:0 6px}
+  .chips{display:flex;gap:22px;margin-top:64px}
+  .chip{background:#fff;border:2px solid #16330022;border-radius:999px;padding:20px 40px;font-size:34px;font-weight:600}
+  .chip b{color:var(--sage)}
+  .logo{position:absolute;right:140px;top:120px;display:flex;align-items:center;gap:18px;font-family:var(--display);font-weight:700;font-size:38px}
+  .foot{position:absolute;left:140px;bottom:96px;font-size:30px;color:#16330099;font-weight:600}
+  /* cards de capacidade */
+  .cards5{display:flex;gap:26px;margin-top:80px}
+  .cap{flex:1;background:#fff;border:2px solid #16330014;border-radius:28px;padding:44px 32px;box-shadow:0 18px 40px #16330012}
+  .cap .n{width:78px;height:78px;border-radius:20px;background:var(--citrus)55;background:color-mix(in srgb,var(--citrus) 40%,#fff);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:42px;color:var(--ink);border:2px solid #16330018}
+  .cap h3{font-family:var(--display);font-weight:700;font-size:40px;margin-top:28px}
+  .cap p{font-size:27px;color:#163300b0;margin-top:14px;line-height:1.35}
+  /* é / não é */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:70px;border-radius:32px;overflow:hidden;border:2px solid #16330022}
+  .col{background:#fff;padding:64px 60px}
+  .col h3{font-family:var(--display);font-weight:700;font-size:46px;margin-bottom:38px}
+  .col.no h3{color:#16330055}
+  .col ul{list-style:none;display:flex;flex-direction:column;gap:26px}
+  .col li{font-size:34px;line-height:1.3}
+  .col.yes li::before{content:"✓  ";color:var(--sage);font-weight:800}
+  .col.no{background:#f3f1e8}
+  .col.no li{color:#16330077}
+  .col.no li::before{content:"✕  ";color:#16330055;font-weight:800}
+  /* roadmap */
+  .road{display:flex;align-items:flex-start;gap:0;margin-top:120px;position:relative}
+  .stop{flex:1;text-align:center;position:relative;padding:0 12px}
+  .stop .dot{width:46px;height:46px;border-radius:50%;background:#fff;border:5px solid var(--sage);margin:0 auto;position:relative;z-index:2}
+  .stop.now .dot{background:var(--amber);border-color:var(--amber);box-shadow:0 0 0 12px #FF4F4022}
+  .stop .line{position:absolute;top:20px;left:50%;width:100%;height:6px;background:#5C6B3C44;z-index:1}
+  .stop:last-child .line{display:none}
+  .stop .mn{font-family:var(--display);font-weight:800;font-size:40px;margin-top:34px}
+  .stop .lb{font-size:30px;color:#163300b0;margin-top:12px;line-height:1.25}
+  .stop.now .tag{display:inline-block;margin-top:18px;background:var(--amber);color:#fff;font-size:24px;font-weight:700;padding:8px 20px;border-radius:999px}
+  /* tarefa */
+  .task{margin-top:70px;display:flex;flex-direction:column;gap:34px;max-width:1300px}
+  .tline{display:flex;align-items:center;gap:34px;background:#fff;border:2px solid #16330018;border-radius:24px;padding:40px 48px}
+  .tline .tn{font-family:var(--display);font-weight:800;font-size:54px;color:var(--sage)}
+  .tline .tb{flex:1;height:4px;background:#16330022;border-radius:4px}
+  /* fecho */
+  .next{font-family:var(--display);font-weight:800;font-size:120px;line-height:1}
+  .nextsub{font-size:52px;color:#163300cc;margin-top:30px}
+  .arrow{color:var(--amber)}
+</style>
+</head>
+<body>
+
+<!-- S1 · TÍTULO -->
+<section class="slide" id="s1">
+  <div class="logo">
+    <svg viewBox="0 0 32 32" width="56" height="56"><rect width="32" height="32" rx="8" fill="#163300"/><path d="M7.6 24.2 L16 7.2 L24.4 24.2" fill="none" stroke="#FAF7F0" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="10.8" y="17.2" width="10.4" height="2.7" rx="1.35" fill="#9FE870"/><circle cx="16" cy="7.2" r="2.5" fill="#FF4F40"/></svg>
+    <span>Chatbot <span style="color:var(--sage)">WhatsApp</span></span>
+  </div>
+  <div style="margin:auto 0">
+    <p class="eyebrow">Módulo 1 · O essencial — Aula 1</p>
+    <h1>O que é um agente de IA<br>no seu <span class="hl">WhatsApp</span></h1>
+    <div class="chips">
+      <span class="chip"><b>1.</b> O que é</span>
+      <span class="chip"><b>2.</b> O que ele resolve</span>
+      <span class="chip"><b>3.</b> Por que não é coisa de dev</span>
+    </div>
+  </div>
+  <div class="foot">Curso Chatbot WhatsApp com IA · MSC Academy</div>
+</section>
+
+<!-- S2 · 5 CAPACIDADES -->
+<section class="slide" id="s2">
+  <p class="eyebrow">O que ele faz por você</p>
+  <h2>5 coisas que ele tira do seu dia</h2>
+  <div class="cards5">
+    <div class="cap"><div class="n">1</div><h3>Responde</h3><p>Preço, horário, "ainda tem?" — na hora, sempre.</p></div>
+    <div class="cap"><div class="n">2</div><h3>Qualifica</h3><p>Separa quem só pergunta de quem quer comprar.</p></div>
+    <div class="cap"><div class="n">3</div><h3>Agenda</h3><p>Marca horário, consulta, visita — sozinho.</p></div>
+    <div class="cap"><div class="n">4</div><h3>Vende</h3><p>Apresenta, tira dúvida e conduz ao pagamento.</p></div>
+    <div class="cap"><div class="n">5</div><h3>Encaminha</h3><p>Te passa a conversa pronta, só pra fechar.</p></div>
+  </div>
+</section>
+
+<!-- S3 · É / NÃO É -->
+<section class="slide" id="s3">
+  <p class="eyebrow">Pra não ter dúvida</p>
+  <h2>O que é — e o que não é</h2>
+  <div class="split">
+    <div class="col yes">
+      <h3 style="color:var(--sage)">O que É</h3>
+      <ul>
+        <li>Um atendente que trabalha 24 horas por você</li>
+        <li>Entende a mensagem e responde como gente</li>
+        <li>Adaptado ao seu negócio (clínica, loja, delivery…)</li>
+        <li>Montado sem código, numa tela visual</li>
+      </ul>
+    </div>
+    <div class="col no">
+      <h3>O que NÃO é</h3>
+      <ul>
+        <li>Mágica nem promessa de "vender sozinho do nada"</li>
+        <li>Aquele robô burro de "aperte 1, aperte 2"</li>
+        <li>Algo que vem pra te substituir</li>
+        <li>Coisa de programador</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- S4 · ROADMAP -->
+<section class="slide center" id="s4">
+  <p class="eyebrow">O caminho do curso</p>
+  <h2>Um passo de cada vez</h2>
+  <div class="road">
+    <div class="stop now"><span class="line"></span><div class="dot"></div><div class="mn">M1</div><div class="lb">O essencial</div><span class="tag">Você está aqui</span></div>
+    <div class="stop"><span class="line"></span><div class="dot"></div><div class="mn">M2</div><div class="lb">Seu primeiro bot no ar</div></div>
+    <div class="stop"><span class="line"></span><div class="dot"></div><div class="mn">M3</div><div class="lb">Cabeça de IA</div></div>
+    <div class="stop"><span class="line"></span><div class="dot"></div><div class="mn">M4</div><div class="lb">Vender e agendar</div></div>
+    <div class="stop"><div class="dot"></div><div class="mn">M5</div><div class="lb">Publicar sem tomar ban</div></div>
+  </div>
+</section>
+
+<!-- S5 · TAREFA -->
+<section class="slide" id="s5">
+  <p class="eyebrow">Sua tarefa</p>
+  <h2>Anote as 3 perguntas que você<br>mais responde no WhatsApp</h2>
+  <p class="lead" style="margin-top:24px">Preço, horário, formas de pagamento… O seu atendente vai aprender a responder essas primeiro.</p>
+  <div class="task">
+    <div class="tline"><span class="tn">1</span><span class="tb"></span></div>
+    <div class="tline"><span class="tn">2</span><span class="tb"></span></div>
+    <div class="tline"><span class="tn">3</span><span class="tb"></span></div>
+  </div>
+</section>
+
+<!-- S6 · FECHO -->
+<section class="slide center" id="s6">
+  <p class="eyebrow">Próxima aula</p>
+  <div class="next">Aula 2</div>
+  <div class="nextsub">Seu primeiro bot no ar, respondendo de verdade <span class="arrow">→</span></div>
+  <div class="foot">Curso Chatbot WhatsApp com IA · MSC Academy</div>
+</section>
+
+</body>
+</html>
