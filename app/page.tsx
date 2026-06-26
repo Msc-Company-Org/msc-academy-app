@@ -1,6 +1,486 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from 'next';
+import LeadPopup from '@/components/LeadPopup';
 
-// Por enquanto o app é o painel (CRM). A vitrine/funil migram pra cá na Fase C.
+const micro = 'mt-3 text-sm text-ink/55';
+
+const provas: [string, string[]][] = [
+  ['Template em ação', ['O mesmo pedido morno, agora no formato P.R.O.©.', 'À esquerda o que você faria sozinho.', 'À direita o que o template entrega.']],
+  ['Fluxo rodando', ['Um encadeamento pronto, do gatilho ao resultado.', 'Você instala e ele repete sozinho.', 'Sem refazer na mão toda vez.']],
+  ['Skill instalada', ['Uma capacidade de verdade, não texto pra decorar.', 'Instala, roda, entrega.', 'É o pulo do amador pro power-user.']],
+];
+
+const arsenal: [string, string, string[]][] = [
+  ['N1', 'Templates prontos (por profissão)', ['Prompts no formato P.R.O.© pra copiar, colar e adaptar.', 'Vendas, atendimento, conteúdo, escritório, freela, estudo.', 'Você para de começar do zero toda vez.']],
+  ['N2', 'Fluxos & Hooks', ['Encadeamentos prontos e hooks que disparam ações repetíveis.', 'O prompt deixa de ser pergunta solta.', 'Vira processo que trabalha por você.']],
+  ['N3', 'Skills & Superpowers', ['Os assets funcionais e instaláveis, testados no uso real.', 'Capacidade de verdade, não texto pra decorar.', 'É o pulo do amador pro power-user.']],
+  ['+', 'Método P.R.O.© — o guia', ['Como instalar, adaptar e fabricar os SEUS assets.', 'É o que te deixa independente do pack pronto.', 'E o que separa este arsenal de uma pasta que ninguém abre.']],
+];
+
+const arsenalIcons: Record<string, string> = {
+  'N1': '<rect x="3" y="4" width="7.5" height="6" rx="1.2"/><rect x="13.5" y="4" width="7.5" height="6" rx="1.2"/><rect x="3" y="14" width="7.5" height="6" rx="1.2"/><rect x="13.5" y="14" width="7.5" height="6" rx="1.2"/>',
+  'N2': '<circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.7 7.6l3.2 8.3M16.3 7.6l-3.2 8.3"/>',
+  'N3': '<path d="M13 2.5 4.8 13.4H11l-1 8.1L19.2 9.9H13z"/>',
+  '+': '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3"/><path d="M12 3.5v3.2M12 17.3v3.2M3.5 12h3.2M17.3 12h3.2"/>',
+};
+
+const faq: [string, string[]][] = [
+  ['Preciso saber programar?', ['Não, nada.', 'Os templates e fluxos são copiar, colar e adaptar.', 'As skills e superpowers vêm com passo a passo.', 'Se você digita uma mensagem, você usa.']],
+  ['Funciona no ChatGPT grátis ou só no pago?', ['Os templates e fluxos funcionam em qualquer modelo.', 'ChatGPT grátis ou pago, Gemini, Claude.', 'Algumas skills pedem ferramentas específicas — e eu explico cada uma.']],
+  ['Quanto tempo pra usar?', ['Hoje.', 'Você baixa o arsenal, escolhe o asset da sua tarefa e aplica no mesmo dia.', 'O Método é pra quando quiser criar os seus.']],
+  ['Não vai ficar desatualizado, com a IA mudando toda hora?', ['Por isso o arsenal vem com o Método P.R.O.©.', 'Você não decora asset que expira.', 'Aprende a adaptar e refazer qualquer um quando o modelo muda.', 'E os novos assets entram de graça, pra sempre.']],
+  ['Por que um arsenal e não um pack qualquer de prompts?', ['Pack solto você baixa e nunca usa.', 'E morre quando o modelo atualiza.', 'Aqui os assets vêm organizados por nível e testados em produção por mim.', 'Pack é commodity; arsenal com método é ferramenta.']],
+  ['Por que comprar este arsenal?', ['Está saturado de gente falando de IA.', 'Aqui você não compra papo — compra a ferramenta.', 'Cada asset vem com antes-e-depois: você vê o resultado antes de instalar.', 'É testado no uso real, não teoria de blog.']],
+  ['Como recebo o acesso e o pagamento?', ['Pela Kiwify, no Pix ou cartão em até 12x.', 'Confirmou, libera na hora.', 'É vitalício, com os novos assets incluídos.']],
+  ['E se eu não gostar?', ['Garantia de 7 dias, incondicional.', 'Pediu, devolvo 100%, sem perguntar.', 'O risco é meu.']],
+  ['R$97 é o preço pra sempre?', ['Não.', 'É o preço do Lote 1 de fundador.', 'A cada lote de assets novos, o preço sobe pro próximo (R$127, depois R$157).', 'Quem entra agora trava o valor de hoje e recebe tudo que vier — pra sempre.']],
+  ['Esse preço sobe mesmo ou é só pressão?', ['Sobe de verdade, e por uma razão honesta: a biblioteca cresce toda semana.', 'Quanto mais asset entra, mais o arsenal vale — então o próximo lote custa mais.', 'Quem comprou no lote anterior nunca paga a diferença.']],
+  ['Novos assets toda semana é promessa de marketing?', ['É compromisso. A biblioteca recebe assets novos toda semana.', 'Entram de graça pra quem já é fundador.', 'O arsenal só cresce.']],
+  ['Isso me ensina a ganhar dinheiro com IA?', ['Vou ser honesto.', 'Te entrega ferramentas e a habilidade de usá-las.', 'Essa é a base de coisas que dão dinheiro, como freela ou construir agentes.', 'Mas não vendo promessa de renda — vendo a ferramenta e a competência que vêm antes dela.']],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(([q, lines]) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: lines.join(' ') },
+  })),
+};
+
+export const metadata: Metadata = {
+  title: 'Arsenal de IA — Pare de começar do zero | MSC Academy',
+  description:
+    'Instale o arsenal de IA pronto, testado e organizado: templates, fluxos, hooks e superpowers com o Método P.R.O.©. Acesso vitalício, sem programar, garantia de 7 dias. R$97 no lote de fundador.',
+  robots: { index: true, follow: true },
+};
+
 export default function Home() {
-  redirect("/painel");
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <div className="fixed top-0 left-0 z-50 h-1 bg-indigo/90" id="read-progress" style={{ width: '0%' }} />
+
+      {/* Banner de fundador (urgência REAL: o preço sobe por lote, de verdade) */}
+      <div className="bg-ink px-4 py-2 text-center text-[13px] text-sand sm:text-sm">
+        <span className="font-semibold">Lote de fundador aberto</span> · R$97 <span className="text-citrus">— sobe pra R$127 no próximo lote</span> · novos assets toda semana, já inclusos.
+      </div>
+
+      {/* HEADER */}
+      <header className="sticky top-0 z-40 border-b border-ink/10 bg-sand/85 backdrop-blur">
+        <div className="shell flex items-center justify-between py-3">
+          <a href="/" className="flex items-center gap-2.5 font-semibold tracking-tight" aria-label="Arsenal de IA — MSC Academy">
+            <svg viewBox="0 0 32 32" className="h-8 w-8 shrink-0" aria-hidden="true">
+              <rect width="32" height="32" rx="8" fill="#163300" />
+              <path d="M7.6 24.2 L16 7.2 L24.4 24.2" fill="none" stroke="#FAF7F0" strokeWidth="2.7" strokeLinecap="round" strokeLinejoin="round" />
+              <rect x="10.8" y="17.2" width="10.4" height="2.7" rx="1.35" fill="#9FE870" />
+              <circle cx="16" cy="7.2" r="2.5" fill="#FF4F40" />
+            </svg>
+            <span className="font-display text-lg">Arsenal <span className="text-sage">de IA</span></span>
+          </a>
+          <button data-checkout="" className="hidden sm:inline-flex items-center gap-1.5 rounded-[10px] bg-amber px-4 py-2 text-sm font-semibold text-[#FFF7F0] hover:bg-amber-deep">
+            Quero o arsenal — R$97 <span className="arrow">→</span>
+          </button>
+        </div>
+      </header>
+
+      {/* HERO (assimétrico) */}
+      <section className="bg-aura">
+        <div className="shell pt-16 pb-12 sm:pt-24">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+            <div className="max-w-[34rem]">
+              <p className="eyebrow mb-4">Você usa IA todo dia. E todo dia começa do zero.</p>
+              <h1 className="font-display text-[2.2rem] font-extrabold leading-[1.05] tracking-tight sm:text-[3.6rem]">Pare de começar do zero.</h1>
+              <p className="mt-3 font-display text-xl font-medium leading-snug text-ink/85 sm:text-[1.7rem]">Instale o <span className="hl">arsenal de IA</span> que já vem pronto, testado e organizado.</p>
+              <div className="prose-flow mt-7 max-w-[30rem]">
+                <p className="lead">Templates, fluxos, hooks e superpowers.</p>
+                <p>Do prompt pronto ao power-up instalável.</p>
+                <p>Cada asset vem com o antes-e-depois — você vê funcionando antes de copiar.</p>
+                <p>E vem com o <strong>Método P.R.O.©</strong> pra você adaptar tudo ao seu caso.</p>
+                <p>Sem programar. Acesso na hora e pra sempre. Garantia de 7 dias.</p>
+              </div>
+              <div className="mt-9">
+                <button data-checkout="" className="btn-amber">QUERO O ARSENAL POR R$97 <span className="arrow">→</span></button>
+                <p className={micro}>Acesso na hora · garantia de 7 dias · Pix ou 12x no cartão</p>
+              </div>
+            </div>
+
+            <aside className="card-lit p-7">
+              <p className="eyebrow mb-4 text-sage">O que você instala hoje</p>
+              <ul className="space-y-4 text-[15px] text-ink/85">
+                <li className="flex gap-3"><span className="mt-1.5 h-2 w-2 shrink-0 rotate-45 bg-amber"></span><span><strong>Assets prontos</strong> — copia, cola e adapta. Antes-e-depois em cada um.</span></li>
+                <li className="flex gap-3"><span className="mt-1.5 h-2 w-2 shrink-0 rotate-45 bg-amber"></span><span><strong>Fluxos instaláveis</strong> — uma IA puxa a outra e o trabalho anda sozinho.</span></li>
+                <li className="flex gap-3"><span className="mt-1.5 h-2 w-2 shrink-0 rotate-45 bg-amber"></span><span><strong>Atualização toda semana</strong> — novos assets entram de graça, pra sempre.</span></li>
+              </ul>
+              <p className="mt-5 flex flex-wrap gap-x-3 gap-y-1 text-xs text-sage">
+                <span>✓ Vitalício</span><span>✓ 7 dias de garantia</span><span>✓ Sem programar</span>
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* 01 · PROVA (faixa Tinta) */}
+      <section className="bg-ink text-sand">
+        <div className="shell section">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow mb-4 text-sand/60">01 · Veja funcionando</p>
+            <h2 className="text-3xl font-bold leading-tight sm:text-4xl text-sand">Prompt bonito qualquer um mostra. Resultado de produção é difícil de fingir.</h2>
+            <p className="mt-5 text-lg text-sand/75">Cada asset abaixo é antes-e-depois real: o que você digita e o que sai.</p>
+          </div>
+          <div className="mt-12 grid gap-5 sm:grid-cols-3">
+            {provas.map(([t, lines]) => (
+              <figure key={t} className="card-dark overflow-hidden">
+                <div className="relative grid aspect-[4/3] place-items-center border-b border-sand/10 bg-sand/[0.05] text-sand/40">
+                  <span className="text-sm">[ screenshot real ]</span>
+                  <span className="seal-real absolute right-3 top-3 !text-sand !border-sand/40 !bg-sand/10">● Prova real</span>
+                </div>
+                <figcaption className="p-6">
+                  <h3 className="font-display text-lg font-semibold text-sand">{t}</h3>
+                  <div className="mt-2 space-y-1.5 text-sm text-sand/70">
+                    {lines.map((l, i) => <p key={i}>{l}</p>)}
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="mx-auto mt-10 max-w-xl space-y-2 text-center text-sm text-sand/60">
+            <p>A prova não é quem fez. É a ferramenta funcionando na sua frente.</p>
+            <p className="italic">São os mesmos assets que uso nos meus sistemas em produção.</p>
+          </div>
+          <div className="mt-9 text-center">
+            <button data-checkout="" className="btn-amber">QUERO ESSES ASSETS <span className="arrow">→</span></button>
+            <p className="mt-3 text-sm text-sand/55">R$97 · acesso vitalício · garantia de 7 dias</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 02 · DOR */}
+      <section className="reveal">
+        <div className="shell section">
+          <div className="grid grid-cols-12 gap-x-8">
+            <div className="col-span-12 lg:col-span-3">
+              <span className="deck-no">02</span>
+              <p className="eyebrow mt-2 lg:mt-4">Você já passou por isto</p>
+            </div>
+            <div className="prose-flow col-span-12 lg:col-span-8 lg:col-start-5">
+              <p className="lead">Você abre a IA cheio de esperança. E começa do zero.</p>
+              <p>Digita um pedido às pressas.</p>
+              <p>Recebe um texto morno e genérico.</p>
+              <p>Refaz na mão.</p>
+              <p>No dia seguinte, a mesma coisa. De novo do zero.</p>
+              <p>A conclusão fácil é <em>"a IA é superestimada"</em>.</p>
+              <p>Mas no fundo bate a pulga: <strong>e se o problema for eu não ter as ferramentas certas?</strong></p>
+              <p>É exatamente isso.</p>
+              <p>Quem extrai trabalho profissional da IA <strong>não é mais inteligente que você</strong>. Nem mais técnico.</p>
+              <p>Ele só tem um <span className="font-semibold text-indigo">arsenal pronto</span> — e sabe adaptá-lo.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 03 · AGITAÇÃO */}
+      <section className="sec-line sec-sage reveal">
+        <div className="shell section">
+          <div className="grid grid-cols-12 gap-x-8">
+            <div className="col-span-12 lg:col-span-3">
+              <span className="deck-no">03</span>
+              <p className="eyebrow mt-2 lg:mt-4">O que está em jogo</p>
+            </div>
+            <div className="col-span-12 lg:col-span-6 lg:col-start-5">
+              <h2 className="font-display text-2xl font-bold leading-snug sm:text-3xl">Reinventar a roda a cada prompt tem um preço que não aparece na fatura.</h2>
+              <ul className="mt-7 space-y-5 text-lg text-ink/85">
+                <li><strong className="font-semibold text-ink">Você paga por uma Ferrari e dirige a 20 km/h.</strong><br />Assina IA todo mês e usa uma fração ridícula do que ela entrega.</li>
+                <li><strong className="font-semibold text-ink">Você vira substituível — pela pessoa errada.</strong><br />Não é a IA que te passa pra trás; é o colega que já montou o arsenal dele.</li>
+                <li><strong className="font-semibold text-ink">Você junta "dicas" que nunca viram ferramenta.</strong><br />40 vídeos no YouTube, um caderno de prompts mágicos, e nada pronto pra usar.</li>
+              </ul>
+              <div className="prose-flow mt-7">
+                <p>O problema nunca foi falta de informação.</p>
+                <p>O que falta é <strong>arsenal</strong>.</p>
+                <p>Assets prontos, testados, organizados.</p>
+                <p>E arsenal de verdade não se acha solto no YouTube. Se pega com quem usa, todo dia, pra valer.</p>
+              </div>
+            </div>
+            <aside className="col-span-3 col-start-10 hidden self-start lg:block lg:sticky lg:top-28">
+              <p className="border-l-2 border-sage pl-4 font-display text-lg italic leading-snug text-ink/70">"O problema nunca foi falta de informação. É falta de arsenal."</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* 04 · MÉTODO P.R.O. */}
+      <section className="reveal">
+        <div className="shell section">
+          <div className="grid items-start gap-10 md:grid-cols-[1fr_1.4fr]">
+            <div>
+              <figure className="card overflow-hidden">
+                <div className="grid aspect-[4/5] place-items-center text-ink/35">
+                  <span className="text-sm">[ retrato editorial — sua foto / avatar ]</span>
+                </div>
+              </figure>
+              <figcaption className="mt-3 text-center text-sm text-ink/60">Moisés — fundador da MSC. <span className="text-indigo">Opera IA, não fala sobre IA.</span></figcaption>
+            </div>
+            <div>
+              <p className="eyebrow mb-3">04 · Por que não é só mais um pack</p>
+              <h2 className="font-display text-3xl font-bold leading-tight sm:text-4xl">Uma pasta de prompts é fácil de baixar. E fácil de esquecer.</h2>
+              <div className="prose-flow mt-5">
+                <p>Por isso cada asset aqui vem com o <strong>Método P.R.O.©</strong> — o que faz você de fato usar.</p>
+                <p>O que separa quem usa IA de verdade não é ter os arquivos. É saber adaptá-los.</p>
+              </div>
+              <div className="mt-7 space-y-5">
+                <div className="border-l-2 border-indigo pl-5">
+                  <h3 className="font-display text-xl font-semibold">P — Papel &amp; Padrão</h3>
+                  <p className="mt-1 text-ink/80">Como cada template define papel, contexto e formato — e como ajustar isso em segundos.</p>
+                </div>
+                <div className="border-l-2 border-indigo pl-5">
+                  <h3 className="font-display text-xl font-semibold">R — Refino em ciclo</h3>
+                  <p className="mt-1 text-ink/80">Como depurar um asset com critério até a saída ficar de produção, em vez de brigar com a IA.</p>
+                </div>
+                <div className="border-l-2 border-indigo pl-5">
+                  <h3 className="font-display text-xl font-semibold">O — Orquestração</h3>
+                  <p className="mt-1 text-ink/80">Como encadear assets num fluxo até virar um sistema que trabalha sozinho.</p>
+                </div>
+              </div>
+              <div className="prose-flow mt-7 rounded-xl bg-sand-dark p-5">
+                <p className="lead">Você instala o arsenal hoje.</p>
+                <p>Mas sai com o tijolo de quem fabrica os seus. E constrói IA pros outros.</p>
+              </div>
+              <div className="mt-7">
+                <button data-checkout="" className="btn-amber">QUERO O ARSENAL + O MÉTODO <span className="arrow">→</span></button>
+                <p className={micro}>R$97 à vista ou 12x · acesso vitalício · garantia de 7 dias</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 05 · O QUE TEM NO ARSENAL */}
+      <section className="sec-line sec-citrus reveal">
+        <div className="shell section">
+          <div className="mx-auto max-w-3xl">
+            <p className="eyebrow mb-3">05 · O que tem dentro</p>
+            <h2 className="font-display text-2xl font-bold sm:text-3xl">Você não precisa virar especialista pra começar.</h2>
+            <div className="prose-flow mt-4">
+              <p>O Arsenal é organizado do básico ao avançado.</p>
+              <p>Você entra pelo nível que precisa hoje. E sobe quando quiser.</p>
+            </div>
+            <div className="mt-9 divide-y divide-ink/12">
+              {arsenal.map(([n, t, lines]) => (
+                <div key={n} className="flex gap-5 py-6">
+                  <div className="flex shrink-0 flex-col items-center gap-1.5">
+                    <span className="grid h-12 w-12 place-items-center rounded-xl border border-ink/10 bg-citrus/30 shadow-sm">
+                      <svg viewBox="0 0 24 24" className="h-6 w-6 text-ink" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{ __html: arsenalIcons[n] }} />
+                    </span>
+                    <span className="text-xs font-semibold tracking-wide text-sage">{n}</span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-lg font-semibold text-ink">{t}</h3>
+                    <div className="mt-2 space-y-1.5 text-ink/75">{lines.map((l, i) => <p key={i}>{l}</p>)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 rounded-xl border border-ink/10 bg-sand p-4 text-[15px] text-ink/80"><strong className="text-ink">A biblioteca cresce toda semana.</strong> Todo asset novo entra de graça pra quem já comprou. Você trava o preço de hoje e recebe tudo que vier.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 06 · O QUE É / NÃO É */}
+      <section className="reveal">
+        <div className="shell section">
+          <div className="mx-auto max-w-4xl">
+            <p className="eyebrow mb-3 text-center">06 · Honestidade de categoria</p>
+            <h2 className="text-center font-display text-2xl font-bold sm:text-3xl">Vou te dizer na cara o que isto não é — antes que você descubra sozinho.</h2>
+            <div className="mt-9 grid gap-px overflow-hidden rounded-2xl border border-ink/12 bg-ink/12 sm:grid-cols-2">
+              <div className="bg-sand p-7">
+                <h3 className="mb-4 font-display text-lg font-semibold text-sage">✓ O que É</h3>
+                <ul className="space-y-3 text-ink/85">
+                  <li>Um <strong>arsenal pronto</strong> — templates, skills e superpowers — com método</li>
+                  <li>Testado em produção por quem <strong>opera</strong> IA de verdade</li>
+                  <li>Organizado por nível: use hoje, suba quando quiser</li>
+                  <li>Pra qualquer pessoa que usa IA, sem programar</li>
+                  <li>Atualizado: novos assets entram de graça</li>
+                  <li>Com o método pra você fabricar os seus</li>
+                </ul>
+              </div>
+              <div className="bg-sand p-7">
+                <h3 className="mb-4 font-display text-lg font-semibold text-ink/45">✕ O que NÃO é</h3>
+                <ul className="space-y-3 text-ink/55">
+                  <li>Um pack solto de prompts pra decorar e esquecer</li>
+                  <li>Um bootcamp de 40h que você nunca termina</li>
+                  <li>Teoria reciclada de quem só assistiu vídeo</li>
+                  <li>Curso técnico de Python ou n8n</li>
+                  <li>Promessa vaga de "ficar rico com IA"</li>
+                  <li>Macete que morre na próxima atualização do modelo</li>
+                </ul>
+              </div>
+            </div>
+            <div className="prose-flow mx-auto mt-7 text-center">
+              <p><strong className="text-ink">Tradução honesta:</strong> você leva ferramentas e a habilidade de usá-las. Não um sonho.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 07 · PRA QUEM É */}
+      <section className="border-y border-ink/10 bg-sand-dark reveal">
+        <div className="shell section">
+          <div className="mx-auto max-w-4xl">
+            <p className="eyebrow mb-2 text-center">07 · É pra você?</p>
+            <p className="mb-8 text-center font-display text-xl italic text-ink/70">Não é pra todo mundo. E tudo bem.</p>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <h3 className="mb-3 font-display text-lg font-semibold text-sage">É pra você se…</h3>
+                <ul className="space-y-2.5 text-ink/85">
+                  <li>Usa IA no dia a dia e cansou de começar tudo do zero.</li>
+                  <li>Quer ferramentas prontas e à prova de futuro, sem virar programador.</li>
+                  <li>É freelancer ou autônomo e quer entregar mais rápido que a concorrência.</li>
+                  <li>Quer subir de templates simples a superpowers no seu ritmo.</li>
+                  <li>Prefere o que já é testado em produção a tutorial solto.</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="mb-3 font-display text-lg font-semibold text-ink/45">NÃO é pra você se…</h3>
+                <ul className="space-y-2.5 text-ink/55">
+                  <li>Procura botão mágico de ganhar dinheiro dormindo, sem fazer nada.</li>
+                  <li>Já tem sua própria biblioteca madura de assets de IA.</li>
+                  <li>Não vai abrir a IA nem colar um template.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 08 · OFERTA */}
+      <section className="reveal bg-aura" data-offer="">
+        <div className="shell section">
+          <div className="mx-auto max-w-2xl">
+            <p className="eyebrow mb-3 text-center">08 · A oferta</p>
+            <h2 className="text-center font-display text-2xl font-bold sm:text-3xl">Soma tudo e passa de R$900. No lote de fundador você leva por <span className="hl">R$97</span>.</h2>
+            <p className="mx-auto mt-3 max-w-xl text-center text-ink/75">Este é o Lote 1. No próximo, o preço sobe pra R$127 — e quem entrou antes não paga a diferença.</p>
+            <div className="mt-8 overflow-hidden rounded-2xl border border-ink/12 bg-sand-dark">
+              <table className="w-full text-left text-[15px]">
+                <tbody className="divide-y divide-ink/10">
+                  <tr><td className="p-4">✅ <strong>Arsenal de IA</strong> completo — 3 níveis</td><td className="p-4 text-right text-ink/40 line-through">R$497</td></tr>
+                  <tr><td className="p-4">✅ <strong>Método P.R.O.©</strong> — adaptar e criar os seus</td><td className="p-4 text-right text-sage">incluso</td></tr>
+                  <tr><td className="p-4">✅ Acesso <strong>vitalício</strong> + novos assets</td><td className="p-4 text-right text-sage">incluso</td></tr>
+                  <tr><td className="p-4">🎁 Mapa Mental P.R.O.© (PDF)</td><td className="p-4 text-right text-ink/40 line-through">R$47</td></tr>
+                  <tr><td className="p-4">🎁 Aula <strong>"Do Prompt ao Agente"</strong></td><td className="p-4 text-right text-ink/40 line-through">R$147</td></tr>
+                  <tr><td className="p-4">🎁 <strong>"30 Nichos pra Vender com IA"</strong></td><td className="p-4 text-right text-ink/40 line-through">R$67</td></tr>
+                  <tr><td className="p-4">🎁 Acesso ao <strong>grupo de alunos</strong></td><td className="p-4 text-right text-ink/40 line-through">R$97</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="card-lit mt-8 p-8 text-center">
+              <p className="text-ink/60">Valor total <span className="line-through">R$955</span></p>
+              <p className="mt-1 text-ink/80">Você paga hoje, à vista ou em até 12x:</p>
+              <p className="mt-2 font-display text-6xl font-extrabold text-ink">R$97</p>
+              <p className="mt-1 text-sm text-ink/55">Lote 1 de fundador. Sobe pra R$127 no próximo lote.</p>
+              <div className="mt-7">
+                <button data-checkout="" className="btn-amber">QUERO O LOTE DE FUNDADOR — R$97 <span className="arrow">→</span></button>
+                <p className={micro}>Acesso imediato · garantia de 7 dias · Pix ou 12x</p>
+              </div>
+            </div>
+            <p className="mx-auto mt-5 max-w-xl rounded-xl bg-sand-dark p-4 text-center text-sm text-ink/75">🎁 Os 3 bônus + o <strong className="text-ink">grupo de fundadores</strong> são exclusivos de quem entra no lote de fundador. Quando ele fechar, saem da oferta.</p>
+            <div className="prose-flow mx-auto mt-5 rounded-xl border border-dashed border-ink/15 p-4 text-sm">
+              <p>💡 No checkout você ainda pode adicionar o <strong className="text-ink">Arsenal Pro©</strong>.</p>
+              <p>São 30 superpowers avançados + fluxos de agente prontos. Por só <strong className="text-ink">+R$47</strong>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 09 · GARANTIA */}
+      <section className="sec-line sec-sage reveal">
+        <div className="shell section">
+          <div className="mx-auto max-w-2xl text-center">
+            <svg viewBox="0 0 24 24" className="mx-auto h-14 w-14 text-sage" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z" /><path d="M9 12l2 2 4-4" /></svg>
+            <h2 className="mt-5 font-display text-2xl font-bold sm:text-3xl">Você não arrisca nada. O risco é todo meu.</h2>
+            <div className="prose-flow mx-auto mt-5 text-center">
+              <p>Baixe o arsenal. Use os assets. Aplique no seu trabalho.</p>
+              <p>Se em 7 dias você sentir que não valeu, é só pedir.</p>
+              <p>Sem justificar, por qualquer motivo. Eu devolvo 100%.</p>
+            </div>
+            <p className="mt-5 font-display text-xl italic text-ink">"Ou a IA passa a trabalhar por você, ou você não paga nada."</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 10 · FAQ */}
+      <section className="reveal">
+        <div className="shell section">
+          <div className="mx-auto max-w-2xl">
+            <p className="eyebrow mb-3 text-center">09 · Perguntas frequentes</p>
+            <div className="mt-6 divide-y divide-ink/12 border-y border-ink/12">
+              {faq.map(([q, lines]) => (
+                <details key={q} className="group py-1">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-semibold text-ink marker:hidden">
+                    <span>{q}</span>
+                    <span className="text-xl text-indigo transition group-open:rotate-45">+</span>
+                  </summary>
+                  <div className="space-y-1.5 pb-4 text-ink/75">{lines.map((l, i) => <p key={i}>{l}</p>)}</div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 11 · CTA FINAL */}
+      <section className="reveal bg-aura">
+        <div className="shell section">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="font-display text-2xl font-bold sm:text-3xl">Última parada. Recapitulando o que você leva hoje.</h2>
+            <ul className="mx-auto mt-6 max-w-md space-y-2 text-left text-ink/85">
+              <li className="text-sage">✓ <span className="text-ink/85">Arsenal de IA completo — templates → skills → superpowers</span></li>
+              <li className="text-sage">✓ <span className="text-ink/85">Método P.R.O.© pra adaptar e criar os seus</span></li>
+              <li className="text-sage">✓ <span className="text-ink/85">Acesso vitalício + novos assets pra sempre</span></li>
+              <li className="text-sage">✓ <span className="text-ink/85">3 bônus + grupo de alunos</span></li>
+              <li className="text-sage">✓ <span className="text-ink/85">Garantia de 7 dias · R$97 à vista ou 12x</span></li>
+            </ul>
+            <div className="prose-flow mx-auto mt-7 text-center">
+              <p>Você acabou de ver os assets funcionando — o antes e o depois.</p>
+              <p>É isso que entra no seu arsenal hoje.</p>
+              <p>A IA não vai te esperar montar o seu do zero. Seu concorrente também não.</p>
+            </div>
+            <div className="mt-8">
+              <button data-checkout="" className="btn-amber">QUERO O ARSENAL — R$97 <span className="arrow">→</span></button>
+              <p className={micro}>Acesso imediato · garantia de 7 dias · Pix ou 12x</p>
+            </div>
+            <div className="prose-flow mx-auto mt-9 text-left font-display text-[15px] italic text-ink/70">
+              <p>P.S. — Se você chegou até aqui, já sabe de uma coisa.</p>
+              <p>O problema nunca foi a IA. É começar tudo do zero, toda vez.</p>
+              <p>Por menos que um almoço, você instala um arsenal pronto, testado, com 7 dias de garantia total.</p>
+              <p>E ele só cresce: assets novos toda semana, de graça, com o preço travado no de hoje.</p>
+              <p>Entrar no Lote 1 é o melhor preço que este arsenal vai ter.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="border-t border-ink/10 pb-20 sm:pb-0">
+        <div className="shell py-10 text-sm text-ink/55">
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <p>© 2026 MSC Academy · Arsenal de IA</p>
+            <div className="flex gap-5">
+              <a href="/arsenal-gratis" className="hover:text-ink">Amostra grátis</a>
+              <a href="/privacidade" className="hover:text-ink">Privacidade</a>
+              <a href="/termos" className="hover:text-ink">Termos</a>
+              <a href="#" data-checkout="" className="hover:text-ink">Comprar</a>
+            </div>
+          </div>
+          <p className="mt-6 max-w-2xl text-xs text-ink/45">Este produto não garante resultado financeiro. Entregamos ferramentas e a habilidade de usá-las; resultados dependem da aplicação de cada aluno. Pagamento processado pela Kiwify.</p>
+        </div>
+      </footer>
+
+      {/* BARRA STICKY MOBILE */}
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-sand/95 p-3 backdrop-blur sm:hidden">
+        <button data-checkout="" className="btn-amber w-full">QUERO O ARSENAL — R$97 <span className="arrow">→</span></button>
+      </div>
+
+      <LeadPopup />
+    </>
+  );
 }

@@ -1,0 +1,45 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Política de Privacidade — MSC Academy',
+  description: 'Como a MSC Academy coleta, usa e protege seus dados (LGPD).',
+  alternates: { canonical: 'https://arsenal.msc-academy.com.br/privacidade' },
+};
+
+export default function Privacidade() {
+  return (
+    <article className="mx-auto max-w-2xl px-5 py-16">
+      <h1 className="font-display text-3xl font-extrabold">Política de Privacidade &amp; Cookies</h1>
+      <p className="mt-2 text-sm text-ink/55">Última atualização: 2026. [SUP] Revisar com o controlador dos dados.</p>
+
+      <div className="mt-8 space-y-6 text-ink/85">
+        <section>
+          <h2 className="font-display text-xl font-semibold text-ink">1. Quem somos</h2>
+          <p className="mt-2">Esta página é operada pela MSC Academy (MSC Company). Contato do controlador de dados: <a className="text-indigo underline" href="mailto:contato@msccompany.com.br">contato@msccompany.com.br</a>. [SUP] confirmar e-mail/CNPJ.</p>
+        </section>
+        <section>
+          <h2 className="font-display text-xl font-semibold text-ink">2. Dados que coletamos</h2>
+          <p className="mt-2">Quando você preenche um formulário (isca/captura), coletamos nome, e-mail e WhatsApp para enviar o material e comunicações sobre nossos produtos. Também coletamos dados de navegação (cookies de analytics e marketing) mediante seu consentimento.</p>
+        </section>
+        <section>
+          <h2 className="font-display text-xl font-semibold text-ink">3. Base legal (LGPD)</h2>
+          <p className="mt-2">Tratamos seus dados com base no seu <strong>consentimento</strong> (art. 7º, I, LGPD) e no <strong>legítimo interesse</strong> para melhorar nossos serviços e medir campanhas. Você pode revogar o consentimento a qualquer momento.</p>
+        </section>
+        <section>
+          <h2 className="font-display text-xl font-semibold text-ink">4. Cookies &amp; medição</h2>
+          <p className="mt-2">Usamos Google Analytics 4, Google Tag Manager, Google Ads e Meta Pixel para medir o desempenho. Por padrão, cookies de marketing e analytics ficam <strong>desativados</strong> até você aceitar no banner (Consent Mode v2).</p>
+        </section>
+        <section>
+          <h2 className="font-display text-xl font-semibold text-ink">5. Seus direitos</h2>
+          <p className="mt-2">Você pode solicitar acesso, correção, exclusão ou portabilidade dos seus dados, além de revogar o consentimento, pelo e-mail acima.</p>
+        </section>
+        <section>
+          <h2 className="font-display text-xl font-semibold text-ink">6. Compartilhamento</h2>
+          <p className="mt-2">O pagamento é processado pela <strong>Kiwify</strong>, que possui política própria. Não vendemos seus dados a terceiros.</p>
+        </section>
+      </div>
+
+      <p className="mt-10"><a href="/" className="text-indigo underline">← Voltar</a></p>
+    </article>
+  );
+}
