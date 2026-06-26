@@ -1,5 +1,5 @@
 import { isAuthed } from '@/lib/auth';
-import { getLeads } from '@/lib/crm';
+import { fetchCrmData } from '@/lib/crm';
 
 export const dynamic = 'force-dynamic';
 
@@ -7,7 +7,7 @@ const COLS = ['created_at', 'email', 'whatsapp', 'nome', 'profissao', 'isca', 'v
 
 export async function GET() {
   if (!(await isAuthed())) return new Response('unauthorized', { status: 401 });
-  const leads = await getLeads({}, 5000);
+  const { leads } = await fetchCrmData();
   const esc = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
   const csv = [COLS.join(','), ...leads.map((l) => COLS.map((c) => esc((l as Record<string, unknown>)[c])).join(','))].join('\n');
   return new Response('﻿' + csv, {

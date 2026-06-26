@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { isAuthed } from '@/lib/auth';
-import { getLeads, getAbStats, getRevenue, BRL, type LeadFilters } from '@/lib/crm';
+import { fetchCrmData, filterLeads, computeAbStats, computeRevenue, BRL, type LeadFilters } from '@/lib/crm';
 import { logoutAction } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,10 @@ export default async function Painel({ searchParams }: { searchParams: Promise<R
   if (!(await isAuthed())) redirect('/painel/login');
   const sp = await searchParams;
   const filters: LeadFilters = { isca: sp.isca, variante: sp.variante, surface: sp.surface, q: sp.q };
-  const [stats, revenue, leads] = await Promise.all([getAbStats(), getRevenue(), getLeads(filters)]);
+  const { leads: allLeads, purchases, error } = await fetchCrmData();
+  const stats = computeAbStats(allLeads, purchases);
+  const revenue = computeRevenue(purchases);
+  const leads = filterLeads(allLeads, filters);
 
   const qs = (patch: Record<string, string | undefined>) => {
     const merged = { ...sp, ...patch };
@@ -37,6 +40,12 @@ export default async function Painel({ searchParams }: { searchParams: Promise<R
         </div>
         <form action={logoutAction}><button className="btn btn-ghost text-sm">Sair</button></form>
       </header>
+
+      {error && (
+        <div className="card mb-6 border-[color-mix(in_srgb,var(--color-amber)_45%,transparent)] p-4 text-sm">
+          ⚠️ Não consegui carregar os dados agora (<code>{error}</code>). O login está ok — é a leitura do CRM. Já estou ajustando a função <code>crm-data</code>.
+        </div>
+      )}
 
       {/* Placar A/B */}
       <section className="mb-8">
