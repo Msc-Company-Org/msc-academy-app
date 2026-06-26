@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import LeadPopup from '@/components/LeadPopup';
+
+const provaImgs = ['/img/proof_copy_prompts.jpg', '/img/proof_automated_workflows.jpg', '/img/proof_custom_skills.jpg'];
 
 const micro = 'mt-3 text-sm text-ink/55';
 
@@ -129,11 +132,11 @@ export default function Home() {
             <p className="mt-5 text-lg text-sand/75">Cada asset abaixo é antes-e-depois real: o que você digita e o que sai.</p>
           </div>
           <div className="mt-12 grid gap-5 sm:grid-cols-3">
-            {provas.map(([t, lines]) => (
+            {provas.map(([t, lines], idx) => (
               <figure key={t} className="card-dark overflow-hidden">
-                <div className="relative grid aspect-[4/3] place-items-center border-b border-sand/10 bg-sand/[0.05] text-sand/40">
-                  <span className="text-sm">[ screenshot real ]</span>
-                  <span className="seal-real absolute right-3 top-3 !text-sand !border-sand/40 !bg-sand/10">● Prova real</span>
+                <div className="relative aspect-[4/3] border-b border-sand/10 bg-sand/[0.05]">
+                  <Image src={provaImgs[idx]} alt={`${t} — antes e depois`} fill sizes="(max-width:640px) 100vw, 33vw" className="object-cover" />
+                  <span className="seal-real absolute right-3 top-3 z-10 !border-sand/40 !bg-sand/10 !text-sand">● Prova real</span>
                 </div>
                 <figcaption className="p-6">
                   <h3 className="font-display text-lg font-semibold text-sand">{t}</h3>

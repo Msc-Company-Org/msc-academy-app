@@ -2,7 +2,7 @@
 title: "Superpoderes de IA: o que são e como instalar sem saber programar"
 description: "Superpoder de IA é um arquivo pronto que você cola na IA e ela passa a fazer uma tarefa por você — sem programar. Veja o que são, os 3 tipos e como instalar o primeiro em 5 minutos."
 date: "2026-06-26"
-cover: "forest"
+cover: "/img/ai_arsenal_library.jpg"
 keywords:
   - "superpoderes de ia"
   - "ia sem programar"
