@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   title: 'Curso Chatbot WhatsApp com IA — seu vendedor 24/7 | MSC Academy',
   description:
     'Aprenda a montar um chatbot de IA que atende, qualifica e vende no seu WhatsApp 24/7 — sem programar e sem depender de agência. Aulas gravadas, templates prontos, comunidade e mentoria. Matrículas abertas, vagas limitadas.',
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: false }, // noindex até o curso existir (pré-lançamento)
   alternates: { canonical: `${SITE}/chatbot-whatsapp` },
   openGraph: {
     title: 'Curso Chatbot WhatsApp com IA — seu vendedor 24/7 | MSC Academy',
