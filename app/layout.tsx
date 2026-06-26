@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Fraunces } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { TrackingInit } from "@/components/TrackingInit";
 
@@ -37,14 +38,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <meta name="theme-color" content="#163300" />
-        <script dangerouslySetInnerHTML={{ __html: consentDefault }} />
-        <script dangerouslySetInnerHTML={{ __html: gtmScript }} />
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
-        <script dangerouslySetInnerHTML={{ __html: gaInit }} />
-        {fbPixel && <script dangerouslySetInnerHTML={{ __html: fbPixel }} />}
+        <Script id="consent-default" strategy="beforeInteractive">{consentDefault}</Script>
+        <Script id="gtm" strategy="afterInteractive">{gtmScript}</Script>
+        <Script id="ga-loader" strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+        <Script id="ga-init" strategy="lazyOnload">{gaInit}</Script>
+        {fbPixel && <Script id="meta-pixel" strategy="lazyOnload">{fbPixel}</Script>}
       </head>
       <body className="min-h-full">
-        <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe>` }} />
+        <noscript>
+          <iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} />
+        </noscript>
         {children}
 
         {/* Banner de consentimento (LGPD) — initPage() liga os botões */}
