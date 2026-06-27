@@ -315,6 +315,26 @@ export default function CursoChatbotWhatsapp() {
         </div>
       </section>
 
+      {/* 07.5 · PROVA DE CAPACIDADE (honesta — não inventa depoimento) */}
+      <section className="sec-line sec-sage reveal">
+        <div className="shell section">
+          <div className="mx-auto max-w-2xl">
+            <p className="eyebrow mb-3">Prova de capacidade</p>
+            <h2 className="font-display text-2xl font-bold sm:text-3xl">Isto não é teoria. A gente já opera bot de WhatsApp atendendo e vendendo — todo dia.</h2>
+            <div className="prose-flow mt-5">
+              <p>Quem te ensina aqui não é mais um que só fala de IA. A <strong>MSC</strong> constrói e mantém agentes de WhatsApp <strong>em produção</strong>, pra negócios reais — atendimento, qualificação e venda no automático.</p>
+              <p>Você aprende exatamente o que a gente faz: o mesmo caminho, as mesmas ferramentas, os mesmos fluxos — destrinchados pra você montar o seu.</p>
+            </div>
+            <div className="mt-7 grid gap-4 sm:grid-cols-3">
+              <div className="card p-5"><p className="font-display text-3xl font-extrabold text-sage">24/7</p><p className="mt-1 text-sm text-ink/70">atende sem parar, sem folha extra</p></div>
+              <div className="card p-5"><p className="font-display text-3xl font-extrabold text-sage">na hora</p><p className="mt-1 text-sm text-ink/70">responde em segundos — o cliente não espera</p></div>
+              <div className="card p-5"><p className="font-display text-3xl font-extrabold text-sage">no-code</p><p className="mt-1 text-sm text-ink/70">você monta ligando blocos, sem programar</p></div>
+            </div>
+            <p className="mt-6 text-sm text-ink/55">Depoimentos de alunos entram aqui conforme as primeiras turmas concluem.</p>
+          </div>
+        </div>
+      </section>
+
       {/* 08 · OFERTA */}
       <section className="reveal bg-aura" data-offer="697">
         <div className="shell section">
