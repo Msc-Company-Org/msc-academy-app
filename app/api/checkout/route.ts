@@ -1,4 +1,5 @@
 import { createCheckoutSession } from '@/lib/stripe';
+import { checkoutSchema } from '@/lib/validation';
 
 export const runtime = 'nodejs';
 
@@ -23,7 +24,9 @@ export async function POST(req: Request) {
 
   let body: Record<string, unknown> = {};
   try { body = await req.json(); } catch { /* noop */ }
-  const { email, attribution, client_id, fbp, fbc, produto, checkout_intent } = body || {};
+  const cv = checkoutSchema.safeParse(body);
+  if (!cv.success) return Response.json({ ok: false, error: 'invalid_input' }, { status: 400 });
+  const { email, attribution, client_id, fbp, fbc, produto, checkout_intent } = cv.data as Record<string, any>;
   if (checkout_intent !== 'site_checkout') {
     return Response.json({ ok: false, error: 'invalid_checkout_intent' }, { status: 400 });
   }

@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import { insertLead, type LeadRow } from '@/lib/leads';
 import { sendEmail } from '@/lib/email';
 import { buildDeliveryEmail } from '@/lib/email-templates';
+import { leadSchema } from '@/lib/validation';
 
 export const runtime = 'nodejs';
 
@@ -31,6 +32,9 @@ export async function POST(req: Request) {
   if (!rateLimit(rlIp)) return Response.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   let body: any = {};
   try { body = await req.json(); } catch { /* noop */ }
+  const parsed = leadSchema.safeParse(body);
+  if (!parsed.success) return Response.json({ ok: false, error: 'invalid_input' }, { status: 400 });
+  body = parsed.data;
 
   const { name, email, phone, profissao, event_id, attribution, fbp, fbc, client_id, isca: iscaRaw, variant, quiz_result, sample, source_surface } = body || {};
   if (!email || !String(email).includes('@')) return Response.json({ ok: false, error: 'email_required' }, { status: 400 });

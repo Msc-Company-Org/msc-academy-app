@@ -32,6 +32,9 @@ importers:
       react-dom:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4
@@ -691,6 +694,9 @@ packages:
       utf-8-validate:
         optional: true
 
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -1201,3 +1207,5 @@ snapshots:
       webidl-conversions: 3.0.1
 
   ws@8.21.0: {}
+
+  zod@4.4.3: {}
