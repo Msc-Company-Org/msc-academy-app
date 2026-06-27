@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PECAS, PECAS_AVANCADAS, HARNESS, METODO } from '@/lib/superpoderes';
 import { verifyAccess } from '@/lib/access';
+import { fetchCrmData } from '@/lib/crm';
 import { CopyButton } from '@/components/CopyButton';
 
 export const metadata: Metadata = {
@@ -14,7 +15,17 @@ export const dynamic = 'force-dynamic'; // server: valida o token de acesso
 export default async function Membros({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const sp = await searchParams;
   const email = verifyAccess(sp.t);
-  const liberado = !!email;
+  // gate revogável: o token prova o e-mail, mas o acesso exige uma COMPRA PAGA viva no CRM.
+  // reembolso/estorno (status != 'paid') ou token forjado sem compra => negado.
+  // Edge indisponível (config/rede) => degrada p/ token, pra não quebrar a entrega de quem pagou.
+  let liberado = false;
+  if (email) {
+    const { purchases, error } = await fetchCrmData();
+    const minhas = purchases.filter((p) => (p.email || '').toLowerCase() === email);
+    const pago = minhas.some((p) => p.status === 'paid');
+    const estornado = minhas.some((p) => p.status === 'refunded' || p.status === 'chargeback');
+    liberado = error ? true : (pago && !estornado); // edge fora => degrada p/ token (não quebra entrega)
+  }
 
   return (
     <>

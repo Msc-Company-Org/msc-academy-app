@@ -25,6 +25,19 @@ export async function POST(req: Request) {
   try { event = JSON.parse(raw); } catch { return Response.json({ ok: false }, { status: 400 }); }
 
   const type = event.type;
+  // reembolso/chargeback → marca 'refunded' (o /membros gateia por status: revoga o acesso na hora)
+  if (type === 'charge.refunded' || type === 'charge.dispute.created') {
+    const ch: any = event.data?.object || {};
+    const remail = ch.billing_details?.email || ch.receipt_email || ch.metadata?.email;
+    if (remail) {
+      await insertPurchase({
+        stripe_session_id: `refund_${ch.id}`, email: String(remail),
+        amount_cents: -(ch.amount_refunded ?? ch.amount ?? 0), currency: ch.currency || 'brl',
+        produto: ch.metadata?.produto || 'arsenal', status: 'refunded',
+      });
+    }
+    return Response.json({ ok: true, refunded: true });
+  }
   if (type !== 'checkout.session.completed' && type !== 'checkout.session.async_payment_succeeded') {
     return Response.json({ ok: true, ignored: type });
   }
