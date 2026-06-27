@@ -35,7 +35,10 @@ export function BlogCover({ title, eyebrow, theme = 'forest', compact = false }:
           </svg>
         </div>
         {eyebrow && <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-[#9FE870]">{eyebrow}</p>}
-        <h1 className={`font-display font-extrabold leading-[1.08] text-[#FAF7F0] ${compact ? 'text-xl' : 'text-2xl sm:text-4xl'}`}>{title}</h1>
+        {/* h1 só no post (não-compact); na index (compact) é parágrafo p/ não ter múltiplos h1 */}
+        {compact
+          ? <p className="font-display text-xl font-extrabold leading-[1.08] text-[#FAF7F0]">{title}</p>
+          : <h1 className="font-display text-2xl font-extrabold leading-[1.08] text-[#FAF7F0] sm:text-4xl">{title}</h1>}
         <p className="mt-4 text-sm font-semibold text-[#FAF7F0]/70">Arsenal de IA · MSC Academy</p>
       </div>
     </div>
