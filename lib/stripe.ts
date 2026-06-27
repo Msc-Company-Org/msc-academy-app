@@ -91,6 +91,9 @@ export function verifyStripeSignature(rawBody: string, sigHeader: string | null,
   const t = parts['t'];
   const v1 = parts['v1'];
   if (!t || !v1) return false;
+  // anti-replay: rejeita timestamp fora de ±5min (igual stripe.webhooks.constructEvent)
+  const ts = Number(t);
+  if (!Number.isFinite(ts) || Math.abs(Date.now() / 1000 - ts) > 300) return false;
   const expected = createHmac('sha256', secret).update(`${t}.${rawBody}`).digest('hex');
   try {
     const a = Buffer.from(expected, 'hex');
