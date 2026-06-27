@@ -1,7 +1,17 @@
 'use client';
-import { track } from '@/lib/tracking';
+import { track, goToCheckout } from '@/lib/tracking';
+import { useState } from 'react';
 
 export function ProntoArsenalClient() {
+  const [pending, setPending] = useState(false);
+
+  async function handleCheckout() {
+    setPending(true);
+    track('bridge_cta_click', { from: 'arsenal_gratis', action: 'checkout_upsell' });
+    await goToCheckout({ produto: 'arsenal' });
+    setPending(false);
+  }
+
   return (
     <section>
       <div className="shell section">
@@ -20,7 +30,15 @@ export function ProntoArsenalClient() {
               <p>O Arsenal completo são os 3 níveis — templates, fluxos, skills e superpowers — + o Método P.R.O.©.</p>
               <p>Tudo o que eu rodo em produção, por R$97.</p>
             </div>
-            <a href="/?utm_source=arsenal_gratis&utm_medium=bridge" className="btn-amber mt-6 w-full justify-center" id="bridge-cta" onClick={() => track('bridge_cta_click', { from: 'arsenal_gratis' })}>VER O ARSENAL COMPLETO <span className="arrow">→</span></a>
+            <button
+              type="button"
+              disabled={pending}
+              className="btn-amber mt-6 w-full justify-center"
+              id="bridge-cta"
+              onClick={handleCheckout}
+            >
+              {pending ? 'CARREGANDO CHECKOUT...' : 'QUERO O ARSENAL COMPLETO — R$97'} <span className="arrow">→</span>
+            </button>
             <p className="mt-3 text-center text-sm text-ink/55">Sem pressa: as 7 peças são suas de qualquer jeito.</p>
           </div>
 

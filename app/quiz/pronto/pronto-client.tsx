@@ -1,14 +1,22 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { track } from '@/lib/tracking';
+import { track, goToCheckout } from '@/lib/tracking';
 
 export function ProntoQuizClient() {
   const [arsenalHref, setArsenalHref] = useState('/entrega/quiz');
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
     const seg = new URLSearchParams(location.search).get('seg');
     if (seg) setArsenalHref(`/entrega/quiz?seg=${encodeURIComponent(seg)}`);
   }, []);
+
+  async function handleCheckout() {
+    setPending(true);
+    track('bridge_cta_click', { from: 'quiz', action: 'checkout_upsell' });
+    await goToCheckout({ produto: 'arsenal' });
+    setPending(false);
+  }
 
   return (
     <section>
@@ -30,7 +38,15 @@ export function ProntoQuizClient() {
               <p>O Arsenal completo tem os 12 + memória, conectores, RAG e o Método P.R.O.©.</p>
               <p>E cresce toda semana — por R$97.</p>
             </div>
-            <a href="/?utm_source=quiz&utm_medium=bridge" className="btn-ghost mt-6 w-full justify-center" id="bridge-cta" onClick={() => track('bridge_cta_click', { from: 'quiz' })}>VER O ARSENAL COMPLETO <span className="arrow">→</span></a>
+            <button
+              type="button"
+              disabled={pending}
+              className="btn-amber mt-6 w-full justify-center"
+              id="bridge-cta"
+              onClick={handleCheckout}
+            >
+              {pending ? 'CARREGANDO CHECKOUT...' : 'QUERO O ARSENAL COMPLETO — R$97'} <span className="arrow">→</span>
+            </button>
             <p className="mt-3 text-center text-sm text-ink/55">Sem pressa: seu arsenal é seu de qualquer jeito.</p>
           </div>
 

@@ -15,13 +15,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = getPost(slug);
   if (!post) return {};
   const url = `${SITE}/blog/${slug}`;
+  const imageUrl = post.cover ? `${SITE}/img/${post.cover}` : `${SITE}/og.jpg`;
   return {
     title: `${post.title} | Arsenal de IA`,
     description: post.description,
     keywords: post.keywords,
     alternates: { canonical: url },
-    openGraph: { title: post.title, description: post.description, url, type: 'article', locale: 'pt_BR' },
-    twitter: { card: 'summary_large_image', title: post.title, description: post.description },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url,
+      type: 'article',
+      locale: 'pt_BR',
+      images: [{ url: imageUrl }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: [imageUrl],
+    },
   };
 }
 

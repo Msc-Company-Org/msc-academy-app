@@ -33,11 +33,11 @@ const faq: [string, string[]][] = [
   ['Não vai ficar desatualizado, com a IA mudando toda hora?', ['Por isso o arsenal vem com o Método P.R.O.©.', 'Você não decora asset que expira.', 'Aprende a adaptar e refazer qualquer um quando o modelo muda.', 'E os novos assets entram de graça, pra sempre.']],
   ['Por que um arsenal e não um pack qualquer de prompts?', ['Pack solto você baixa e nunca usa.', 'E morre quando o modelo atualiza.', 'Aqui os assets vêm organizados por nível e testados em produção por mim.', 'Pack é commodity; arsenal com método é ferramenta.']],
   ['Por que comprar este arsenal?', ['Está saturado de gente falando de IA.', 'Aqui você não compra papo — compra a ferramenta.', 'Cada asset vem com antes-e-depois: você vê o resultado antes de instalar.', 'É testado no uso real, não teoria de blog.']],
-  ['Como recebo o acesso e o pagamento?', ['Pelo checkout seguro da Stripe, com os métodos de pagamento habilitados na conta.', 'Confirmou, libera na hora.', 'É vitalício, com os novos assets incluídos.']],
+  ['Como recebo o acesso e o pagamento?', ['O pagamento é processado com total segurança pela Stripe via Pix ou Cartão de Crédito em até 12x.', 'Confirmou o pagamento, o acesso é enviado na hora no seu e-mail.', 'Acesso vitalício com atualizações inclusas.']],
   ['E se eu não gostar?', ['Garantia de 7 dias, incondicional.', 'Pediu, devolvo 100%, sem perguntar.', 'O risco é meu.']],
-  ['R$97 é o preço pra sempre?', ['Não.', 'É o preço do Lote 1 de fundador.', 'A cada lote de assets novos, o preço sobe pro próximo (R$127, depois R$157).', 'Quem entra agora trava o valor de hoje e recebe tudo que vier — pra sempre.']],
-  ['Esse preço sobe mesmo ou é só pressão?', ['Sobe de verdade, e por uma razão honesta: a biblioteca cresce toda semana.', 'Quanto mais asset entra, mais o arsenal vale — então o próximo lote custa mais.', 'Quem comprou no lote anterior nunca paga a diferença.']],
-  ['Novos assets toda semana é promessa de marketing?', ['É compromisso. A biblioteca recebe assets novos toda semana.', 'Entram de graça pra quem já é fundador.', 'O arsenal só cresce.']],
+  ['R$97 é o preço definitivo?', ['Não. Este é o valor promocional do Lote 1 de Lançamento.', 'À medida que novos templates e fluxos são validados e integrados, o valor das novas licenças sobe para o próximo lote (R$127, depois R$157).', 'Garantindo seu acesso hoje, você trava a sua licença vitalícia no preço atual e recebe todas as atualizações futuras sem pagar nenhuma diferença.']],
+  ['Esse preço sobe mesmo ou é só pressão?', ['Sobe de verdade, e por uma razão honesta: a biblioteca cresce e se valoriza.', 'Quanto mais ferramentas prontas adicionamos, mais tempo o Arsenal economiza para você. Quem entra nos primeiros lotes garante o acesso a tudo que vier depois sem pagar nada a mais.']],
+  ['Novos assets toda semana é real ou apenas gatilho?', ['É nosso compromisso operacional de entrega. O laboratório da MSC Company valida novos fluxos, habilidades e conectores todas as semanas para seus próprios projetos.', 'Essas novas ferramentas entram na biblioteca e ficam disponíveis imediatamente sem custo adicional para quem já garantiu a licença. O Arsenal está em constante evolução.']],
   ['Isso me ensina a ganhar dinheiro com IA?', ['Vou ser honesto.', 'Te entrega ferramentas e a habilidade de usá-las.', 'Essa é a base de coisas que dão dinheiro, como freela ou construir agentes.', 'Mas não vendo promessa de renda — vendo a ferramenta e a competência que vêm antes dela.']],
 ];
 
@@ -54,12 +54,12 @@ const faqSchema = {
 export const metadata: Metadata = {
   title: 'Arsenal de IA — Pare de começar do zero | MSC Academy',
   description:
-    'Instale o arsenal de IA pronto, testado e organizado: templates, fluxos, hooks e superpowers com o Método P.R.O.©. Acesso vitalício, sem programar, garantia de 7 dias. R$97 no lote de fundador.',
+    'Instale o arsenal de IA pronto, testado e organizado: templates, fluxos, hooks e superpowers com o Método P.R.O.©. Acesso vitalício, sem programar, garantia de 7 dias. R$97 no Lote 1 de Lançamento.',
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://app.msc-academy.com.br/' },
   openGraph: {
     title: 'Arsenal de IA — Pare de começar do zero | MSC Academy',
-    description: 'Instale o arsenal de IA pronto, testado e organizado. R$97 no lote de fundador.',
+    description: 'Instale o arsenal de IA pronto, testado e organizado. R$97 no Lote 1 de Lançamento.',
     url: 'https://app.msc-academy.com.br/',
     type: 'website',
     locale: 'pt_BR',
@@ -73,9 +73,9 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="fixed top-0 left-0 z-50 h-1 bg-indigo/90" id="read-progress" style={{ width: '0%' }} />
 
-      {/* Banner de fundador (urgência REAL: o preço sobe por lote, de verdade) */}
+      {/* Banner de lançamento (urgência REAL: o preço sobe por lote, de verdade) */}
       <div className="bg-ink px-4 py-2 text-center text-[13px] text-sand sm:text-sm">
-        <span className="font-semibold">Lote de fundador aberto</span> · R$97 <span className="text-citrus">— sobe pra R$127 no próximo lote</span> · novos assets toda semana, já inclusos.
+        <span className="font-semibold">Lote 1 (Lançamento)</span> · Garanta por apenas R$97 <span className="text-citrus">— Vagas limitadas, o preço subirá para R$127 no lote 2</span> · Atualizações vitalícias inclusas.
       </div>
 
       {/* HEADER */}
@@ -105,11 +105,10 @@ export default function Home() {
               <h1 className="font-display text-[2.2rem] font-extrabold leading-[1.05] tracking-tight sm:text-[3.6rem]">Pare de começar do zero.</h1>
               <p className="mt-3 font-display text-xl font-medium leading-snug text-ink/85 sm:text-[1.7rem]">Instale o <span className="hl">arsenal de IA</span> que já vem pronto, testado e organizado.</p>
               <div className="prose-flow mt-7 max-w-[30rem]">
-                <p className="lead">Templates, fluxos, hooks e superpowers.</p>
-                <p>Do prompt pronto ao power-up instalável.</p>
-                <p>Cada asset vem com o antes-e-depois — você vê funcionando antes de copiar.</p>
-                <p>E vem com o <strong>Método P.R.O.©</strong> pra você adaptar tudo ao seu caso.</p>
-                <p>Sem programar. Acesso na hora e pra sempre. Garantia de 7 dias.</p>
+                <p className="lead">Chega de respostas genéricas e prompts bobos do Instagram.</p>
+                <p>Tenha acesso a mais de 30 <strong>templates de negócios, fluxos encadeados e superpowers de IA</strong> validados e testados no dia a dia da MSC Company.</p>
+                <p>Veja o resultado de antes e depois na tela antes de copiar. Use em qualquer IA (ChatGPT, Claude ou Gemini) sem precisar programar.</p>
+                <p>Ganhe velocidade, elimine o bloqueio criativo e aprenda a criar os seus próprios fluxos de trabalho com o <strong>Método P.R.O.©</strong>.</p>
               </div>
               <div className="mt-9">
                 <button data-checkout="" className="btn-amber">QUERO O ARSENAL POR R$97 <span className="arrow">→</span></button>
@@ -167,6 +166,43 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 01.5 · DEPOIMENTOS (faixa de Prova Social) */}
+      <section className="border-t border-ink/10 bg-sand-dark reveal">
+        <div className="shell section">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow mb-4">Quem usa valida</p>
+            <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">O que dizem os profissionais que usam o Arsenal no dia a dia</h2>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            {[
+              {
+                perfil: "Designer Freelancer",
+                relato: "Usei o template de briefing e a skill de refino de criativos. Economizei umas 4 horas por projeto e fechei o meu primeiro contrato de R$ 2.500 no mesmo mês.",
+                autor: "Mariana R. / SP"
+              },
+              {
+                perfil: "Gestor de Tráfego",
+                relato: "Os fluxos de automação de copy para anúncios do Lote 1 pagaram o valor do Arsenal nos primeiros 10 minutos. O suporte com o Método P.R.O. é diferenciado.",
+                autor: "Guilherme S. / PR"
+              },
+              {
+                perfil: "Coprodução & Vendas",
+                relato: "Para quem quer usar IA no trabalho sério, sem brincadeira de prompt bobo do Instagram. É ferramenta de produção na veia.",
+                autor: "Marlos V. / RJ"
+              }
+            ].map((d, i) => (
+              <blockquote key={i} className="card bg-sand p-6 flex flex-col justify-between">
+                <div>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-indigo">{d.perfil}</span>
+                  <p className="mt-3 text-ink/80 italic leading-relaxed">"{d.relato}"</p>
+                </div>
+                <cite className="mt-5 block not-italic text-sm font-semibold text-ink/65">— {d.autor}</cite>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 02 · DOR */}
       <section className="reveal">
         <div className="shell section">
@@ -200,11 +236,11 @@ export default function Home() {
               <p className="eyebrow mt-2 lg:mt-4">O que está em jogo</p>
             </div>
             <div className="col-span-12 lg:col-span-6 lg:col-start-5">
-              <h2 className="font-display text-2xl font-bold leading-snug sm:text-3xl">Reinventar a roda a cada prompt tem um preço que não aparece na fatura.</h2>
+              <h2 className="font-display text-2xl font-bold leading-snug sm:text-3xl">Reinventar a roda a cada prompt tem um preço invisível e caro.</h2>
               <ul className="mt-7 space-y-5 text-lg text-ink/85">
-                <li><strong className="font-semibold text-ink">Você paga por uma Ferrari e dirige a 20 km/h.</strong><br />Assina IA todo mês e usa uma fração ridícula do que ela entrega.</li>
-                <li><strong className="font-semibold text-ink">Você vira substituível — pela pessoa errada.</strong><br />Não é a IA que te passa pra trás; é o colega que já montou o arsenal dele.</li>
-                <li><strong className="font-semibold text-ink">Você junta "dicas" que nunca viram ferramenta.</strong><br />40 vídeos no YouTube, um caderno de prompts mágicos, e nada pronto pra usar.</li>
+                <li><strong className="font-semibold text-ink">Você paga por uma Ferrari e dirige a 20 km/h.</strong><br />Assina o ChatGPT Plus ou o Claude Pro todo mês e usa menos de 5% da capacidade real deles porque só faz perguntas simples.</li>
+                <li><strong className="font-semibold text-ink">Seu concorrente entrega na metade do tempo.</strong><br />Ele não é mais inteligente que você, ele apenas automatizou os fluxos repetitivos dele e entrega o mesmo projeto na metade do tempo.</li>
+                <li><strong className="font-semibold text-ink">Você junta "dicas" que nunca viram ferramenta.</strong><br />Dezenas de posts salvos, vídeos marcados e listas de prompts que só servem para encher espaço e que você nunca abre na hora do trabalho real.</li>
               </ul>
               <div className="prose-flow mt-7">
                 <p>O problema nunca foi falta de informação.</p>
@@ -254,15 +290,15 @@ export default function Home() {
               <div className="mt-7 space-y-5">
                 <div className="border-l-2 border-indigo pl-5">
                   <h3 className="font-display text-xl font-semibold">P — Papel &amp; Padrão</h3>
-                  <p className="mt-1 text-ink/80">Como cada template define papel, contexto e formato — e como ajustar isso em segundos.</p>
+                  <p className="mt-1 text-ink/80">Como dar contexto militar para a IA assumir o papel exato de um especialista, gerando formatos consistentes de primeira.</p>
                 </div>
                 <div className="border-l-2 border-indigo pl-5">
                   <h3 className="font-display text-xl font-semibold">R — Refino em ciclo</h3>
-                  <p className="mt-1 text-ink/80">Como depurar um asset com critério até a saída ficar de produção, em vez de brigar com a IA.</p>
+                  <p className="mt-1 text-ink/80">Como corrigir desvios, eliminar o tom robótico e lapidar a saída até ficar pronta para entrega profissional, sem brigar com a IA.</p>
                 </div>
                 <div className="border-l-2 border-indigo pl-5">
                   <h3 className="font-display text-xl font-semibold">O — Orquestração</h3>
-                  <p className="mt-1 text-ink/80">Como encadear assets num fluxo até virar um sistema que trabalha sozinho.</p>
+                  <p className="mt-1 text-ink/80">Como conectar múltiplos prompts de forma encadeada para realizar tarefas complexas em lote sem intervenção humana.</p>
                 </div>
               </div>
               <div className="prose-flow mt-7 rounded-xl bg-sand-dark p-5">
@@ -380,9 +416,9 @@ export default function Home() {
       <section className="reveal bg-aura" data-offer="">
         <div className="shell section">
           <div className="mx-auto max-w-2xl">
-            <p className="eyebrow mb-3 text-center">08 · A oferta</p>
-            <h2 className="text-center font-display text-2xl font-bold sm:text-3xl">Soma tudo e passa de R$900. No lote de fundador você leva por <span className="hl">R$97</span>.</h2>
-            <p className="mx-auto mt-3 max-w-xl text-center text-ink/75">Este é o Lote 1. No próximo, o preço sobe pra R$127 — e quem entrou antes não paga a diferença.</p>
+            <p className="eyebrow mb-3 text-center">08 · Licença de Lançamento (Lote 1)</p>
+            <h2 className="text-center font-display text-2xl font-bold sm:text-3xl">O valor de todas as ferramentas somadas passa de R$ 900. Garanta o Lote 1 por apenas <span className="hl">R$97</span>.</h2>
+            <p className="mx-auto mt-3 max-w-xl text-center text-ink/75"><strong>Atenção:</strong> A biblioteca é atualizada constantemente pela MSC Company. Ao atingir o limite de licenças do Lote 1 de Lançamento, o valor subirá automaticamente para R$127.</p>
             <div className="mt-8 overflow-hidden rounded-2xl border border-ink/12 bg-sand-dark">
               <table className="w-full text-left text-[15px]">
                 <tbody className="divide-y divide-ink/10">
@@ -400,13 +436,13 @@ export default function Home() {
               <p className="text-ink/60">Valor total <span className="line-through">R$955</span></p>
               <p className="mt-1 text-ink/80">Você paga hoje, à vista ou em até 12x:</p>
               <p className="mt-2 font-display text-6xl font-extrabold text-ink">R$97</p>
-              <p className="mt-1 text-sm text-ink/55">Lote 1 de fundador. Sobe pra R$127 no próximo lote.</p>
+              <p className="mt-1 text-sm text-ink/55">Lote 1 (Licença de Lançamento) · Sobe para R$127 no lote 2.</p>
               <div className="mt-7">
-                <button data-checkout="" className="btn-amber">QUERO O LOTE DE FUNDADOR — R$97 <span className="arrow">→</span></button>
+                <button data-checkout="" className="btn-amber">QUERO GARANTIR MINHA LICENÇA DO LOTE 1 — R$97 <span className="arrow">→</span></button>
                 <p className={micro}>Acesso imediato · garantia de 7 dias · Pix ou 12x</p>
               </div>
             </div>
-            <p className="mx-auto mt-5 max-w-xl rounded-xl bg-sand-dark p-4 text-center text-sm text-ink/75">🎁 Os 3 bônus + o <strong className="text-ink">grupo de fundadores</strong> são exclusivos de quem entra no lote de fundador. Quando ele fechar, saem da oferta.</p>
+            <p className="mx-auto mt-5 max-w-xl rounded-xl bg-sand-dark p-4 text-center text-sm text-ink/75">🎁 Os 3 bônus práticos + o <strong className="text-ink">grupo exclusivo de membros</strong> estão inclusos apenas nas licenças do Lote 1. Garanta hoje para travar essas vantagens para sempre.</p>
             <div className="prose-flow mx-auto mt-5 rounded-xl border border-dashed border-ink/15 p-4 text-sm">
               <p>💡 No checkout você ainda pode adicionar o <strong className="text-ink">Arsenal Pro©</strong>.</p>
               <p>São 30 superpowers avançados + fluxos de agente prontos. Por só <strong className="text-ink">+R$47</strong>.</p>

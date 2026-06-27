@@ -38,6 +38,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <meta name="theme-color" content="#163300" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "MSC Academy",
+              "url": "https://app.msc-academy.com.br",
+              "logo": "https://app.msc-academy.com.br/logo.svg",
+              "sameAs": [
+                "https://github.com/MSC-Company-Org"
+              ]
+            })
+          }}
+        />
         <Script id="consent-default" strategy="beforeInteractive">{consentDefault}</Script>
         <Script id="gtm" strategy="afterInteractive">{gtmScript}</Script>
         <Script id="ga-loader" strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
