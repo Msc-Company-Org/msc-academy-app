@@ -6,7 +6,12 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
 function secret(): string {
-  return process.env.ACCESS_SECRET || process.env.STRIPE_WEBHOOK_SECRET || 'dev-only-insecure';
+  const s = process.env.ACCESS_SECRET || process.env.STRIPE_WEBHOOK_SECRET;
+  if (!s) {
+    if (process.env.NODE_ENV === 'production') throw new Error('ACCESS_SECRET (ou STRIPE_WEBHOOK_SECRET) não configurado');
+    return 'dev-only-local-insecure'; // só ambiente local
+  }
+  return s;
 }
 
 const b64u = (s: string) => Buffer.from(s, 'utf8').toString('base64url');

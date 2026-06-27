@@ -5,6 +5,16 @@ import { buildDeliveryEmail } from '@/lib/email-templates';
 
 export const runtime = 'nodejs';
 
+// rate-limit por IP (anti-spam / custo CAPI)
+const RL_WINDOW = 10 * 60 * 1000, RL_MAX = 15;
+const rlHits = new Map<string, { count: number; resetAt: number }>();
+function rateLimit(ip: string): boolean {
+  const now = Date.now();
+  const c = rlHits.get(ip);
+  if (!c || c.resetAt < now) { rlHits.set(ip, { count: 1, resetAt: now + RL_WINDOW }); return true; }
+  c.count += 1; return c.count <= RL_MAX;
+}
+
 const sha256 = (s: string) => crypto.createHash('sha256').update(s.trim().toLowerCase()).digest('hex');
 const iscaFrom = (isca?: string, sample?: string): string =>
   isca || (sample === 'quiz' ? 'quiz' : sample === '7-do-arsenal' ? 'arsenal-7' : sample === 'blog' ? 'blog' : 'arsenal-7');
@@ -17,6 +27,8 @@ const iscaFrom = (isca?: string, sample?: string): string =>
  *  4) se isca='blog', devolve cookie blog_unlock (libera leitura)
  */
 export async function POST(req: Request) {
+  const rlIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  if (!rateLimit(rlIp)) return Response.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   let body: any = {};
   try { body = await req.json(); } catch { /* noop */ }
 
